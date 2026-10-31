@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+title: "Qualitative-behaviour control with uncontrollable linearisation: branching feedback and the geometry of its singularity locus"
+authors:
+  - family-names: "Shoshitaishvili"
+    given-names: "Alex"
+    affiliation: "Independent Researcher"
+date-released: 2026-10-31
+license: CC-BY-4.0
+type: article
+repository-code: "https://github.com/alexshosh/qualitative-feedback-companion"
+keywords:
+  - uncontrollable linearisation
+  - branching feedback
+  - qualitative-behaviour control
+  - coupling manifold
+  - singularities of maps
+  - Brockett integrator
+  - Andronov-Hopf bifurcation
+  - prescribed frequency
+  - nonsmooth stabilisation
