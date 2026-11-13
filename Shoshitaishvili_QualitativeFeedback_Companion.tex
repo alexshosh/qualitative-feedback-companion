@@ -79,7 +79,7 @@ uncontrollable (Section~\ref{sec:frequency}). No smooth feedback can change the 
 nondegenerate quadratic control terms it produces an attracting cycle with a prescribed frequency from an
 explicit range, apart from a few resonances with $\omega_0$. Note that a similar branching feedback can also
 make the working point asymptotically stable for a plant whose linearisation there is uncontrollable and
-unstable, when its quadratic terms satisfy an explicit sign condition (Section~\ref{sec:stab}). We introduce the \emph{branching QBC ultrastability problem} (Definition~\ref{def:ultra}), after Ashby's notion of ultrastability \cite{Ashby1960}: the problem of stabilising uniformly every plant of a family that may include plants with controllability deficiencies, some of which have no smooth stabiliser. An example is a failing actuator. As the actuator weakens, the plant changes; when the actuator stops, the plant can lose controllability. So the plants along the way form a family that passes through a plant with a controllability deficiency.
+unstable, when its quadratic terms satisfy an explicit sign condition (Section~\ref{sec:stab}). We introduce the \emph{branching QBC ultrastability problem} (Definition~\ref{def:ultra}): the problem of stabilising uniformly every plant of a family that may include plants with controllability deficiencies, some of which have no smooth stabiliser. An example is a failing actuator. As the actuator weakens, the plant changes; when the actuator stops, the plant can lose controllability. So the plants along the way form a family that passes through a plant with a controllability deficiency.
 \end{abstract}
 
 \maketitle
@@ -563,6 +563,10 @@ Let a family of plants, possibly with controllability deficiencies, be given by 
 \end{itemize}
 The \emph{branching QBC ultrastability problem} is to find a branching feedback under which the family is uniformly bounded and attracting, uniformly controlled and uniformly switched.
 \end{definition}
+
+\begin{remark}[ultrastability and finite equivalence]
+Our approach to equivalence of systems, which originated in singularity theory and Ashby's ideas, is reminiscent of an approach that originated in symbolic dynamics: finite equivalence by W.~Parry \cite{Parry1977}. Two systems are finitely equivalent if they have a common finite cover, mapped onto both by finite-to-one maps that carry trajectories to trajectories; here $x(t)=F_c(z(t))$. In our solutions of the ultrastability problem, the degree of $F_c$, $|F_c|$ and the size of the lifts, the steepness of $F_c$ away from its branch set, and the number of crossings of the cuts per unit time are bounded by numbers not depending on $c$. These are only similarities: Parry's finite equivalence concerns a single pair of systems and is defined through the maps of a common cover, while our definition of ultrastability is stated through common bounds on the state, the control and the switches for the whole family; the robust ultrastability of Proposition~\ref{prop:robust} is also outside Parry's picture.
+\end{remark}
 
 \subsection{The generic family of deformations of the model}\label{sec:three}
 We now state one result for a generic analytic family of plants through the model: lower powers of $u$, terms in $\bar u$, damping and detuning, and terms nonlinear in $x$ such as the Duffing term. One reference and one coupling solve the branching QBC ultrastability problem for the whole family; the feedback built from them depends on the plant. For the plants $\dot x=u^{n}+xA+\bar xB$ one feedback, built without knowing $A$ and $B$, works for all of them (Proposition~\ref{prop:robust}). The price is a fast reference: we keep the direction $\lambda_0$ of the reference and multiply it by a large number $\Lambda$. At the end we apply the result to damping a resonator.
@@ -2878,6 +2882,8 @@ The author used the AI assistants Claude (Anthropic) and ChatGPT (OpenAI) for he
 \bibitem{Ashby1960} W.\,R.~Ashby,
   \emph{Design for a Brain: The Origin of Adaptive Behaviour}, 2nd ed., Chapman \& Hall, London, 1960,
   doi:10.1037/11592-000.
+\bibitem{Parry1977} W.~Parry, A finitary classification of topological Markov chains and sofic systems,
+  \emph{Bull.\ London Math.\ Soc.} \textbf{9} (1977), 86--92, doi:10.1112/blms/9.1.86.
 
 \bibitem{BrivadisAndrieuBernardSerres2023} L.~Brivadis, V.~Andrieu, P.~Bernard, U.~Serres,
   \emph{Further remarks on KKL observers}, Systems Control Lett.\ \textbf{172} (2023), 105429,
