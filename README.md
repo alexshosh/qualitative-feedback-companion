@@ -12,8 +12,9 @@ This is the full version; see also the short preprint *Branching feedback at an 
 
 ## Files
 
-- `Shoshitaishvili_QualitativeFeedback_Companion.tex` - LaTeX source (amsart; figures are inline TikZ, no external files).
-- `Shoshitaishvili_QualitativeFeedback_Companion.pdf` - compiled preprint (pdflatex, 53 pages).
+- `Shoshitaishvili_QualitativeFeedback_Companion.tex` - LaTeX source (amsart; Figure 1 is inline TikZ).
+- `Shoshitaishvili_QualitativeFeedback_Companion.pdf` - compiled preprint (pdflatex, 57 pages).
+- `figure_blowup.png` - Figure 2, the blow-up of the Brockett integrator.
 
 ## Building
 

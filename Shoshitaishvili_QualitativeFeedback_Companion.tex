@@ -114,139 +114,159 @@ results and their mechanism but with few proofs, is the preprint \cite{Core}.
 
 \medskip
 \noindent\textbf{Where linear controllability is lost.}
-Engineering design prefers plants with controllable linearisation, but when a plant depends on
+Engineering design prefers plants with controllable linearisation. But when a plant depends on
 parameters, the loss of linear controllability is inevitable as soon as the family of plants is transversal
 to a surface of degenerate linear controllability in the space of systems with control \cite[\S4.11]{Shosh1990}.
+
 Several cases in the literature show this situation: a quadrocopter that has lost propellers, a
 spacecraft with two control torques, a surface vessel without lateral thrust, a horizontal arm with a
 passive joint, the unicycle. For each, the practical task has been solved, and always by abandoning smooth
 static feedback. The quadrocopter hovers by spinning about its thrust axis
-\cite{MuellerDAndrea2014,MuellerDAndrea2016}; the others are stabilised by laws that switch or depend on
+\cite{MuellerDAndrea2014,MuellerDAndrea2016}. The others are stabilised by laws that switch or depend on
 time \cite{BrewerTsiotras2022,Reyhanoglu1997,PanPengLvTian2025,DeLucaMattoneOriolo2000,dAndreaNovelCoronPerruquetti2020}. Loss of controllability of the linearisation
 also happens in practice in the areas of fluid control \cite{CoronLissy2014}, digital (sampled-data) control
 \cite{YangWangWang2024}, turbomachinery \cite{LiawAbed1996}, robotics \cite{Sampei2018}, networks \cite{JiangLai2019},
 quantum control \cite{Bournissou2023}, chemistry \cite{LeBalch2019} and biology \cite{CorneliusKathMotter2013}. A nonlinear
 feedback generically stabilises a Hopf bifurcation even when the critical modes of the linearisation are uncontrollable
-\cite{AbedFu1986,HamziKangBarbot2004}; such feedback changes the criticality, stability and amplitude of the cycle, but its
+\cite{AbedFu1986,HamziKangBarbot2004}. Such feedback changes the criticality, stability and amplitude of the cycle, but its
 onset frequency stays $\omega_0$.
+
 Asymptotic stabilisation of a position, asymptotic stabilisation of a trajectory and the synthesis of a cycle
 of prescribed frequency are instances of one problem, the QBC problem with different
-references: a trajectory is stabilised by stabilising the zero of the error between state and trajectory, a
-system that may depend on time. In all the cases above this problem is of practical importance.
+references. In all the cases above this problem is of practical importance.
 The area of applications becomes even wider when one considers the stabilisation of a desired trajectory (the author
 started his research in this area from stable following of a glide path in landing).
-This paper gives a method, branching feedback, which generalises regular static feedback and produces
+
+This paper gives a method, branching feedback, which generalises regular static feedback. It produces
 the required control (Sections~\ref{sec:stab}--\ref{sec:brockett}) even when no regular feedback solving the
-problem exists, and also considers more general equilibrium points for asymptotic
-stabilisation (Section~\ref{sec:stab}) and a case which, as far as we know, has not been addressed in the literature: a cycle of
+problem exists. It also considers more general equilibrium points for asymptotic
+stabilisation (Section~\ref{sec:stab}), and a case which, as far as we know, has not been addressed in the literature: a cycle of
 prescribed frequency (Section~\ref{sec:frequency}).
 
 \medskip
 \noindent\textbf{The obstruction, and what is known about it.}
 That no continuous static feedback can stabilise certain systems with uncontrollable
 linearisation is well established. Brockett's necessary condition \cite{Brockett1983}
-is the topological source; it was shown by Ryan \cite{Ryan1994} to remain necessary when
-the feedback is discontinuous and the solutions are understood in Filippov's sense, so researchers turned to other kinds of
+is the topological source. Ryan \cite{Ryan1994} showed that it remains necessary when
+the feedback is discontinuous and the solutions are understood in Filippov's sense. So researchers turned to other kinds of
 feedback: sampled proximal-aiming feedback
 \cite{CLSS1997}, smooth time-varying feedback and the return method
 \cite{Coron2007}, patchy and hybrid constructions \cite{GoebelSanfeliceTeel2012}. Recent accounts of these
 topological obstructions, including their extension from points to sets and to safety constraints, are
 \cite{KvalheimKoditschek2022,JongeneelMoulay2023}. Each of these constructions establishes the
-obstruction to feedback stabilising the plant and then \emph{constructs a substitute}. For the Brockett integrator, Zeng \cite{Zeng2022} locates the
-discontinuity of a time-invariant law on the $x_3$-axis and observes the branching there, but does not describe the
-axis as the critical value set of a projection, which is how it appears in this paper. In parallel, the control-bifurcation programme
+obstruction to feedback stabilising the plant and then \emph{constructs a substitute}.
+
+For the Brockett integrator, Zeng \cite{Zeng2022} locates the
+discontinuity of a time-invariant law on the $x_3$-axis and observes the branching there. That paper does not describe the
+axis as the critical value set of a projection, which is how it appears in this paper.
+
+The control-bifurcation programme
 \cite{KrenerKangChang2004,Kang1998} classifies systems with uncontrollable
 linearisation by smooth normal forms and analyses the low-codimension
-bifurcations (fold, transcritical, Hopf); it proves --- for the fold control
-bifurcation --- that no continuous static feedback \emph{stabilises} the equilibria on both
-sides of the set in state--control space where controllability is lost, and then passes
-to smooth controlled-centre dynamics; the geometry of the feedback itself is not its subject.
+bifurcations (fold, transcritical, Hopf). For the fold control
+bifurcation it proves that no continuous static feedback \emph{stabilises} the equilibria on both
+sides of the set in state--control space where controllability is lost. It then passes
+to smooth controlled-centre dynamics. The geometry of the feedback itself is not its subject.
 
 \medskip
 \noindent\textbf{What this paper adds.}
 The machinery of \cite{Shosh1990} for the QBC problem is as follows. Its central object is not the plant alone but the integral
-manifold $M$ of the \emph{plant--reference product system} $\dot x=v\bigl(x,h(x,z)\bigr)$, $\dot z=w(z)$, where
-$u=h(x,z)$ is a \emph{coupling} of plant and reference $\dot z=w(z)$; the problem
-is solvable iff $M$ is the graph of a diffeomorphism $F$ from
-reference space to
-plant space (the Theorem of \S\ref{sec:product} below). \emph{Uncontrollability forces $F$ to be singular at the
+manifold $M$ of the \emph{plant--reference product system} $\dot x=v\bigl(x,h(x,z)\bigr)$, $\dot z=w(z)$. Here
+$u=h(x,z)$ is a \emph{coupling} of the plant and the reference $\dot z=w(z)$. The problem
+is solvable iff $M$ is the graph of a diffeomorphism $F$ from reference space to
+plant space (the Theorem of \S\ref{sec:product}).
+
+\emph{Uncontrollability forces $F$ to be singular at the
 working point} whenever the reference spectrum does not contain some uncontrollable eigenvalue (the Proposition of
-\S\ref{sec:graph} below), so $F$ is not a diffeomorphism. (We usually assume that $F$ is finite, i.e.\ every state has only finitely
-many preimages under $F$ (see, however, Section~\ref{sec:brockett})). Then the QBC problem has no $C^1$ solution.
+\S\ref{sec:graph}). So $F$ is not a diffeomorphism, and the QBC problem has no $C^1$ solution. (We usually assume that $F$ is finite: every state has only finitely
+many preimages under $F$; see, however, Section~\ref{sec:brockett}.)
+
 When $F^{-1}$ is multivalued, as at a fold, a ramification, $z^n$ or the Brockett circle, the feedback
 $s(x)=h\bigl(x,F^{-1}(x)\bigr)$ has one value for each branch of $F^{-1}$ (values on different branches may
-coincide), and its
-\emph{ramification locus} (or, in the usual terminology, \emph{caustic}) is the set of critical values of $F$, i.e.\ the images of the points where the derivative of $F$ is degenerate: the set $\pi(\Sig)$, the image of the
+coincide). Its
+\emph{ramification locus} (or, in the usual terminology, \emph{caustic}) is the set of critical values of $F$, i.e.\ the images of the points where the derivative of $F$ is degenerate. It is the set $\pi(\Sig)$, the image of the
 critical set
 \[
   \Sig \;=\; \{\, z : \det \partial_z F(z) = 0 \,\}
 \]
-of the projection $(x,z)\mapsto x$ restricted to $M$ --- its \emph{bifurcation set}
+of the projection $(x,z)\mapsto x$ restricted to $M$. The set $\pi(\Sig)$ is the \emph{bifurcation set} of this projection
 in the sense of \cite{AGV}, of which the fold is only the generic
 codimension-one stratum (cusps and deeper singularities occur in general). The locus
-depends on the chosen reference and coupling; what the controllability deficiency forces is that
-it contains the working point. Multivaluedness from a singular projection is familiar from optimal-control
-synthesis, where the projection of a Lagrangian manifold is singular along its caustic; here it
+depends on the chosen reference and coupling. What the controllability deficiency forces is that
+it contains the working point.
+
+Multivaluedness from a singular projection is familiar from optimal-control
+synthesis, where the projection of a Lagrangian manifold is singular along its caustic. Here it
 arises from the stabilisation obstruction itself, with no cost functional. The resulting feedback is realised
 as a \emph{branching closed/open-loop control} (Section~\ref{sec:core}).
 
 We then put the machinery to work. Section~\ref{sec:brockett} applies it to the
 nonholonomic (Brockett) integrator. A weighted blow-up resolves the plant into a
-family of surfaces indexed by a cylinder, and a single reference is carried on the
-blow-up itself, with the graph of the blow-down as the coupling manifold: the control is bounded by the
-size of the state and the half-attraction time (a time by which the size of the
+family of surfaces indexed by a cylinder. In the first approach, a single reference is carried on the
+blow-up itself, with the graph of the blow-down as the coupling manifold. The control is bounded by the
+size of the state, and the half-attraction time (a time by which the size of the
 state has halved) does not depend on the initial point. The ramification locus is the axis; over each of its nonzero points there is a circle of branches.
+
 In the second approach we keep the surfaces of the family invariant instead, with the coupling the
-blow-up suggests. This makes the attraction non-uniform; prefixing an initial phase restores uniformity,
-and then a constant frequency, fixed by the designer, survives the motion. Finally, in the third approach, rotating the branch
-used on the axis, in opposite directions on its two halves, and merging the branches into one value near the axis gives a
+blow-up suggests. This makes the attraction non-uniform. Prefixing an initial phase restores uniformity,
+and then a constant frequency, fixed by the designer, survives the motion. Finally, in the third approach, the branch
+used on the axis is rotated, in opposite directions on its two halves, and the branches are merged into one value near the axis. This gives a
 continuous time-periodic stabiliser of Coron's type with uniform exponential convergence
 (Section~\ref{sec:rotating}).
+
 Section~\ref{sec:frequency} is another example of our main result, the method of qualitative-behaviour
 branching control: a
 synthesis of periodic motion of \emph{prescribed frequency} whose critical mode is an
 uncontrollable imaginary pair $\pm i\omega_0$. Smooth feedback leaves $\pm i\omega_0$ in the
 closed-loop linearisation, so the onset frequency of a Hopf bifurcation from that pair is fixed by
 the plant. We give conditions on the quadratic part of the control under which a branching feedback is
-constructed that installs an attracting cycle on which the uncontrollable part of the state, denoted here and further on by $x_<$, moves at any prescribed angular
-velocity $2\omega\neq\omega_0$, or $-2\omega$, by transporting a reference cycle of frequency
+constructed. It installs an attracting cycle on which the uncontrollable part of the state, denoted here and further on by $x_<$, moves at any prescribed angular
+velocity $2\omega\neq\omega_0$, or $-2\omega$. It does so by transporting a reference cycle of frequency
 $\omega$ through the projection $z\mapsto z^{2}$ of the coupling manifold.
 
 \medskip
 \noindent\textbf{Main results.} The results are stated in detail in Sections~\ref{sec:setup}--\ref{sec:frequency}.
 \begin{enumerate}
-\item[(1)] \emph{The singularity is forced} (Proposition of \S\ref{sec:graph} below). If the linearisation $(A,C)$ is
+\item[(1)] \emph{The singularity is forced} (Proposition of \S\ref{sec:graph}). If the linearisation $(A,C)$ is
   uncontrollable and the spectrum of the reference does not contain some uncontrollable eigenvalue of $A$, then the map $F$ of
   every coupling manifold is singular at the working point. Then the QBC problem has no $C^1$ solution. When
   $F^{-1}$ is multivalued, as at a fold, a ramification, $z^n$ or the Brockett circle, the feedback obtained by
-  inverting $F$ has one value for each branch of $F^{-1}$, and its branches meet over the ramification locus $\pi(\Sig)$ (\S\ref{sec:core} below).
-\item[(2)] \emph{Stabilisation} (Section~\ref{sec:stab}). For the corank-one normal form the sign of one number $\Delta$,
-  computed from the linear and quadratic coefficients, decides: for $\Delta>0$ no sufficiently small control stabilises the working
-  point, and for $\Delta<0$ a branching feedback does. The model $\dot x=u^{n}$, $x,u\in\C$, has no continuous
-  stabiliser, but an explicit $n$-branch one. For the analytic families of plants through it of \S\ref{sec:three} (kinds 1 and 2), including tones, damping, detuning and terms nonlinear in the state, one fast reference and one coupling serve the whole family, with uniformly bounded state and control and a uniformly bounded number of switches.
+  inverting $F$ has one value for each branch of $F^{-1}$, and its branches meet over the ramification locus $\pi(\Sig)$ (\S\ref{sec:core}).
+\item[(2)] \emph{Stabilisation, in ultrastable and robust ultrastable ways} (Section~\ref{sec:stab}). Take a plane plant with one uncontrollable and unstable direction (\S\ref{sec:generic-quadratic}). One number $\Delta$, computed from the linear and quadratic coefficients, decides. For $\Delta>0$ no sufficiently small control stabilises the working point. For $\Delta<0$ a branching feedback does.
+
+The model $\dot x=u^{n}$, $x,u\in\C$, has no continuous stabiliser, but an explicit $n$-branch one. Take the analytic families of plants through the model of \S\ref{sec:three} (families with tones and families of small deformations). They include tones, damping, detuning and terms nonlinear in the state. One fast reference and one coupling stabilise the whole family in an ultrastable way (Definition~\ref{def:ultra}): the state, the control and the number of switches are bounded uniformly.
+
+The resonators $\dot x=u^{n}+xA(x,\bar x,u,\bar u)+\bar xB(x,\bar x,u,\bar u)$ are stabilised in both ways, ultrastable and robust ultrastable. The robust feedback does not depend on $A$ and $B$ (Proposition~\ref{prop:robust}). With a reference of Andronov--Hopf type we obtain an ultrastable and robust ultrastable Andronov--Hopf bifurcation. It holds for the resonators with $B=0$ and $A$ depending only on $x$ and $\bar x$. They include damping, detuning and a Duffing term, each of which may be zero.
 \item[(3)] \emph{The Brockett integrator} (Section~\ref{sec:brockett}). A branching feedback in closed form with
   $|u|\le c\nu$, $\nu=\bigl((x_1^{2}+x_2^{2})^{2}+x_3^{2}\bigr)^{1/4}$ the size of the state, and with a time
   after which $\nu$ has halved that does not depend on the initial point. Over each nonzero point of the $x_3$-axis the branches form a circle. Rotating the branch used on the axis, in opposite directions on its two halves, gives a
-  continuous time-periodic stabiliser with uniform exponential convergence (Theorem of \S\ref{sec:rotating} below).
+  continuous time-periodic stabiliser with uniform exponential convergence (Theorem of \S\ref{sec:rotating}).
 \item[(4)] \emph{Prescribed frequency} (Section~\ref{sec:frequency}). Let the critical pair $\pm i\omega_0$ be
   uncontrollable and let the control enter it through $Q(u)=Gu^{2}+H|u|^{2}+K\bar u^{2}$. Smooth feedback cannot change
   the frequency $\omega_0$. The position of the complex number $H$ relative to the ellipse
-  $E(G,K)=\{\vartheta\in\C:\ |\vartheta|^{2}+|\vartheta^{2}-4GK|=2(|G|^{2}+|K|^{2})\}$ (see \eqref{eq:ellipse-cond} in \S\ref{sec:reachable}
-  below) decides what a branching feedback can do; $H$ is inside $E(G,K)$ when
-  $|H|^{2}+|H^{2}-4GK|<2(|G|^{2}+|K|^{2})$. If $H$ is strictly inside the ellipse, every angular velocity $\pm2\omega$
-  of $x_<$ is realised on an attracting cycle, except $2\omega=\omega_0$. First consider $|G|\neq|K|$. If $H$ is on the ellipse,
+  $E(G,K)=\{\vartheta\in\C:\ |\vartheta|^{2}+|\vartheta^{2}-4GK|=2(|G|^{2}+|K|^{2})\}$ (see \eqref{eq:ellipse-cond} in \S\ref{sec:reachable}) decides what a branching feedback can do. $H$ is inside $E(G,K)$ when
+  $|H|^{2}+|H^{2}-4GK|<2(|G|^{2}+|K|^{2})$.
+
+  First consider $|G|\neq|K|$. If $H$ is strictly inside the ellipse, every angular velocity $\pm2\omega$
+  of $x_<$ is realised on an attracting cycle, except $2\omega=\omega_0$. If $H$ is on the ellipse,
   every angular velocity $2\omega$ is realised, except at the resonances
   $\omega/\omega_0\in\{\frac14,\frac13,\frac12,1,2\}$.
   If $H$ is outside the ellipse, the same holds for all $\omega$ with $\omega/\omega_0<U$, where $U\ge1/\sqrt2$
-  is given by an explicit formula in $G,H,K$ \eqref{eq:ceiling-U}, and
-  $U\sim\operatorname{dist}(H,E(G,K))^{-1/2}$, so $U$ grows without bound as $H$ approaches the ellipse (Corollary of \S\ref{sec:friction-full} below).
+  is given by an explicit formula in $G,H,K$ \eqref{eq:ceiling-U}. Moreover
+  $U\sim\operatorname{dist}(H,E(G,K))^{-1/2}$, so $U$ grows without bound as $H$ approaches the ellipse (Corollary of \S\ref{sec:friction-full}).
   The case $|G|=|K|$, where the ellipse degenerates to a segment, is considered separately (\S\ref{sec:reachable}).
 \end{enumerate}
 
 \medskip
-\noindent\textbf{Engineering aspects.} In the main examples the branching feedback is given in closed form, with explicit bounds, and the controller needs no clock, only the current branch (the programmed passages of \S\ref{sec:core} and the time-periodic law of \S\ref{sec:rotating} use time), which suits computer control. It gives one approach to different problems, some of which were considered in work on systems with hysteresis \cite{KrasnoselskiiPokrovskii1989,Visintin2014}, on hybrid controllers \cite{GoebelSanfeliceTeel2012,Sanfelice2021} and on Coron's continuous time-varying stabilisers \cite{Coron2007}. Laws with memory are standard wherever an actuator has discrete states: a thermostat or a relay has two branches, an automatic gearbox with $p$ gears has $p$ branches, since it shifts up and down at different speeds, and staged heaters or compressors have one branch per stage. Our approach can be said to have an infinitesimally small memory: the branch at time $t$ is decided by the branch at time $t-0$.
+\noindent\textbf{Engineering aspects.} In the main examples the branching feedback is given in closed form, with explicit bounds. The controller needs no clock, only the current branch, which suits computer control. (The programmed passages of \S\ref{sec:core} and the time-periodic law of \S\ref{sec:rotating} use time.) Branching feedback gives one approach to different problems, some of which were considered in work on systems with hysteresis \cite{KrasnoselskiiPokrovskii1989,Visintin2014}, on hybrid controllers \cite{GoebelSanfeliceTeel2012,Sanfelice2021} and on Coron's continuous time-varying stabilisers \cite{Coron2007}. Laws with memory are standard wherever an actuator has discrete states: a thermostat or a relay has two branches, an automatic gearbox with $p$ gears has $p$ branches, since it shifts up and down at different speeds, and staged heaters or compressors have one branch per stage. Our approach can be said to have an infinitesimally small memory: the branch at time $t$ is decided by the branch at time $t-0$.
 
-A further advantage is expected: insensitivity to small errors in measuring the state. A discontinuous stabiliser that depends only on the measured state is in general sensitive to them, since an error can push the control back and forth across the switching surface. A controller with an internal state avoids this \cite{Shosh1990,Sontag1999} (in \cite[\S6]{Shosh1990} for observation problems). Here the internal state is the current branch; it is not re-decided from the measured state at each instant, and changes only where the switching law prescribes: on surfaces chosen by the designer, or inside small balls around the points of $\Sig$ where branches collide (\S\ref{sec:core}). In branching closed/open-loop control \cite[\S3]{Shosh1990} the control inside such a ball is a short programmed control $u(t)=h\bigl(F(z(t)),z(t)\bigr)$, the coupling along the reference trajectory; it brings the state to the next branch without using the measured state, the control stays continuous in time, and the trajectory $x(t)$ stays smooth, although it may intersect itself. In branching feedback alone the ball is cut out: on its boundary the state jumps to another branch over the same $x$, and the control jumps there. Insensitivity needs, in addition, an error model and a switching rule near these balls; the balls, the model and the rule will be given elsewhere. (In the Brockett controller of \S\ref{sec:leaf} the branch does not change; there an error model and a switching rule are given for the change of mode at the horn $|\rho|=\rho_0$.)
+A further advantage is expected: insensitivity to small errors in measuring the state. A discontinuous stabiliser that depends only on the measured state is in general sensitive to them, since an error can push the control back and forth across the switching surface. A controller with an internal state avoids this \cite{Shosh1990,Sontag1999} (in \cite[\S6]{Shosh1990} for observation problems).
+
+Here the internal state is the current branch. It is not re-decided from the measured state at each instant. It changes only where the switching law prescribes: on surfaces chosen by the designer, or inside small balls around the points of $\Sig$ where branches collide (\S\ref{sec:core}).
+
+In branching closed/open-loop control \cite[\S3]{Shosh1990} the control inside such a ball is a short programmed control $u(t)=h\bigl(F(z(t)),z(t)\bigr)$, the coupling along the reference trajectory. It brings the state to the next branch without using the measured state. The control stays continuous in time, and the trajectory $x(t)$ stays smooth, although it may intersect itself. In branching feedback alone the ball is cut out: on its boundary the state jumps to another branch over the same $x$, and the control jumps there.
+
+Insensitivity needs, in addition, an error model and a switching rule near these balls. The balls, the model and the rule will be given elsewhere. (In the Brockett controller of \S\ref{sec:leaf} the branch does not change; there an error model and a switching rule are given for the change of mode at the horn $|\rho|=\rho_0$.)
 
 \medskip
 \noindent\textbf{On language.}
@@ -306,13 +326,17 @@ locus}, or \emph{caustic}.
 The construction parallels optimal control. There the state space is doubled by the cotangent bundle:
 to the state $x$ one adjoins the adjoint variable $\psi$, the extremals sweep out a Lagrangian manifold
 in the space of pairs $(x,\psi)$, and the optimal feedback is read off this manifold through the
-projection $(x,\psi)\mapsto x$. Here the state space is doubled by the reference system: to the state $x$
+projection $(x,\psi)\mapsto x$.
+
+Here the state space is doubled by the reference system: to the state $x$
 one adjoins the reference state $z$, the coupling manifold $M$ lies in the space of pairs $(x,z)$, and
 the feedback is read off $M$ through the projection $(x,z)\mapsto x$. So $z$ plays the role of $\psi$ and
-the coupling manifold that of the Lagrangian manifold. In both cases each branch of the feedback is single-valued where
+the coupling manifold that of the Lagrangian manifold.
+
+In both cases each branch of the feedback is single-valued where
 the projection is a local diffeomorphism and branches over its critical value set: the caustic in
-optimal control, the ramification locus of \S\ref{sec:core} below here. The comparison is continued in
-\S\ref{sec:bridge} below.
+optimal control, the ramification locus of \S\ref{sec:core} here. The comparison is continued in
+\S\ref{sec:bridge}.
 \end{remark}
 
 \begin{theorem}[{\cite[Thm.~2.2]{Shosh1990}}]\label{thm:solvable}
@@ -353,7 +377,7 @@ every $K$. If $F$ were a diffeomorphism, the closed loop with the feedback of th
 would be similar to $D$, and $\lambda$ would be an eigenvalue of $D$.
 \end{proof}
 
-Where $F$ cannot be inverted, the feedback has several branches; this is the subject of \S\ref{sec:core} below.
+Where $F$ cannot be inverted, the feedback has several branches; this is the subject of \S\ref{sec:core}.
 
 \subsection{Branching feedback and its ramification locus}\label{sec:core}
 Fix a coupling $h$ with coupling manifold $M=\graph(x=F(z))$, and let
@@ -362,23 +386,26 @@ Fix a coupling $h$ with coupling manifold $M=\graph(x=F(z))$, and let
 \end{equation}
 be the critical set of the projection $\pi\colon M\to X$, $\pi(x,z)=x$ (we identify $M$ with $Z$ by
 $z\mapsto(F(z),z)$). Off $\Sig$ the map $F$ is a local
-diffeomorphism. By the Proposition of \S\ref{sec:graph} above, the working point lies in $\Sig$ when $(A,C)$ is
+diffeomorphism. By the Proposition of \S\ref{sec:graph}, the working point lies in $\Sig$ when $(A,C)$ is
 uncontrollable and the spectrum of the reference does not contain some uncontrollable eigenvalue of $A$. The
 \emph{ramification locus} $\pi(\Sig)\subset X$ depends on the reference and the coupling as well as on the plant.
 
 \emph{Branches.} Assume $F$ is \emph{finite}: proper near the fibre in question, with finite fibres. Then off
 $\pi(\Sig)$ the equation $x=F(z)$ has, locally, finitely many smooth solution branches
-$z=\zeta_1(x),\dots,\zeta_\mu(x)$, their number constant on each component of $X\setminus\pi(\Sig)$; a global
-labelling of the branches may be obstructed by monodromy, which is why the label is changed across cuts. On $\pi(\Sig)$ branches meet. In the two simplest
+$z=\zeta_1(x),\dots,\zeta_\mu(x)$, their number constant on each component of $X\setminus\pi(\Sig)$.
+
+On $\pi(\Sig)$ branches meet. In the two simplest
 cases two branches meet. At a \emph{fold}, as for $x=z^{2}$ on $\R$, there are two branches on one side and none on the other: they
 meet and end. At a \emph{ramification point}, as for $x=z^{2}$ on $\C$, there are two branches at every nearby point,
 and going once around the point exchanges them. More branches can meet at one point: for $x=z^{n}$ on $\C$, $n$
 branches meet at $0$, and going once around it permutes them cyclically; at the point of a cusp, three branches
-of a real map meet. Finite branching is the case in \S\ref{sec:stab} and
-\S\ref{sec:frequency} below: the tuck of \S\ref{sec:generic-quadratic}, the map $z\mapsto z^{n}$ and its small
-deformations, and $(z,x_>)\mapsto(z^{2},x_>)$. For the Brockett integrator the branches over each nonzero axis point form a circle (\S\ref{sec:entry} below).
+of a real map meet. Since going around such a point exchanges branches, the number of a branch changes when the state crosses a cut.
 
-\emph{The branching feedback.} Along $M$ the coupling $h$ of the Definition of \S\ref{sec:product} above takes the
+Finite branching is the case in \S\ref{sec:stab} and
+\S\ref{sec:frequency}: the tuck of \S\ref{sec:generic-quadratic}, the map $z\mapsto z^{n}$ and its small
+deformations, and $(z,x_>)\mapsto(z^{2},x_>)$. For the Brockett integrator the branches over each nonzero axis point form a circle (\S\ref{sec:entry}).
+
+\emph{The branching feedback.} Along $M$ the coupling $h$ of the Definition of \S\ref{sec:product} takes the
 value
 \[
   p(z)\;=\;h\bigl(F(z),z\bigr),
@@ -392,7 +419,7 @@ the branch index $j$. The closed loop is the plant together with a discrete part
 \]
 where $j(t)$ is piecewise constant, with finitely many jumps on each finite time interval (this holds, for
 example, when the trajectories of the reference on $Z$ cross $\Sig$ transversally). Under the spectral obstruction of
-\S\ref{sec:graph} above, no coupling map is a local diffeomorphism, and the QBC problem has no $C^{1}$ solution.
+\S\ref{sec:graph}, no coupling map is a local diffeomorphism, and the QBC problem has no $C^{1}$ solution.
 One then asks instead for a branching feedback whose closed loop is the image of the reference under $F$: the \emph{branching QBC problem}
 (the modified problem of \cite[\S3]{Shosh1990}).
 
@@ -431,7 +458,7 @@ the chosen reset rule.
 \subsection{The generic second-order degeneracy}\label{sec:generic-quadratic}
 Before the model, the general corank-one situation, where the second-order term is
 an arbitrary quadratic. Let the linearisation of \eqref{eq:plant} at the origin
-have corank one and a positive uncontrollable eigenvalue, with $x\in\R^{2}$ and scalar $u$. By a linear change of variables
+have corank one (the controllable subspace has dimension one less than the state space, so exactly one direction is uncontrollable) and a positive uncontrollable eigenvalue, with $x\in\R^{2}$ and scalar $u$. By a linear change of variables
 and a feedback substitution absorbing the $\dot x_2$-component, the system reduces
 to the normal form \cite[\S4.2]{Shosh1990}
 \begin{equation}\label{eq:normalform}
@@ -522,25 +549,52 @@ $u(t)=z(t)$ stays continuous in $t$.
 For real $\lambda$ the trajectories are rays into $0$ and the branch never changes.
 
 \subsection{Deformations of the model}\label{sec:deformations}
-\emph{Motivation} (see resonator terminology in \cite{NayfehMook1979}). A real resonator is never exactly the model. Its damping $\gamma$ is small but not known exactly, and changes with temperature and pressure; a small detuning of the drive from $\omega_0/n$ adds a term $i\sigma x$, $\sigma$ proportional to the detuning; tones locked to the drive add terms in $\bar u$. So the plant is $\dot x=(-\gamma+i\sigma)x+\kappa u^{n}+\dots$, a deformation of the model, and we ask two things. First, one reference and one coupling must damp all such resonators, including $\gamma=\sigma=0$, with bounds not depending on $\gamma$ and $\sigma$. This is the branching QBC ultrastability problem (Definition~\ref{def:ultra} below) for the deformations of the model. In it the coupling manifold, the branches and the cuts may depend on the plant, so the feedback is built for a known plant. Second, since $\gamma$ and $\sigma$ are not known exactly, one feedback, built without knowing them, must be robust, i.e.\ damp all these resonators. Robustness, for the plants $\dot x=u^{n}+xA+\bar xB$, is the subject of Proposition~\ref{prop:robust}; with tones it is open (Future work, item~4).
+\emph{Motivation} (see resonator terminology in \cite{NayfehMook1979}). A real resonator is never exactly the model. Its damping $\gamma$ is small but not known exactly, and changes with temperature and pressure; a small detuning of the drive from $\omega_0/n$ adds a term $i\sigma x$, $\sigma$ proportional to the detuning; tones locked to the drive add terms in $\bar u$. So the plant is $\dot x=(-\gamma+i\sigma)x+\kappa u^{n}+\dots$, a deformation of the model, and we ask two things. First, one reference and one coupling must damp all such resonators, including $\gamma=\sigma=0$, with bounds not depending on $\gamma$ and $\sigma$. This is the branching QBC ultrastability problem (Definition~\ref{def:ultra}) for the deformations of the model. In it the coupling manifold, the branches and the cuts may depend on the plant, so the feedback is built for a known plant. Second, since $\gamma$ and $\sigma$ are not known exactly, one feedback, built without knowing them, must be robust, i.e.\ damp all these resonators. Robustness, for the plants $\dot x=u^{n}+xA+\bar xB$, is the subject of Proposition~\ref{prop:robust}; with tones it is open (Future work, item~4).
 
 Let a controllability deficiency have codimension $k$ in the space of plants. If a $k$-parameter family of
 plants crosses the set of plants with this deficiency transversally (see transversality explained in \cite{AGV}), then every family close to it crosses that set
 too: a small change of the family only moves the parameter value at which such a plant occurs, and does not
 remove it. To include every case, one can consider $c$ as the full set of coefficients of the plants of the family below.
 
-\begin{definition}\label{def:ultra}
-Let a family of plants, possibly with controllability deficiencies, be given by a parameter $c$ in a set $\mathcal C$, each with its reference, coupling law $u=h(x,z)$ and coupling manifold $x=F_c(z)$. Let $\mathcal V$ be a neighbourhood of $x=0$ in which every $x_0$ has a lift $z_0$, $F_c(z_0)=x_0$, and write $x(t;x_0,c)$ and $u(t;x_0,c)$ for the state and the control starting from it. On $\mathcal V$ the family is
+\begin{definition}[ultrastability]\label{def:ultra}
+Let a family of plants $\dot x=v_c(x,u)$, possibly with controllability deficiencies, be given by a parameter $c$ in a set $\mathcal C$, and let one reference $\dot z=w(z)$ be given. For each $c$ let a coupling $u=h_c(x,z)$ with a coupling manifold $x=F_c(z)$ be given, and let the branching feedback and the switching law be built on it as in \S\ref{sec:core}; then the closed loop of the plant $c$ is the image of the reference under $F_c$. Let $\mathcal V$ be a neighbourhood of $x=0$. The \emph{branching QBC ultrastability problem} on $\mathcal V$ is to find such couplings and coupling manifolds, a bounded set $D\subset Z$ that the reference keeps forward invariant, and numbers $K$, $B_1$, $N$, not depending on $c$, such that for every $c$:
 \begin{itemize}
-\item \emph{uniformly bounded and attracting} if there is a number $B$, not depending on $t$, $x_0$ and $c$, such that $|x(t;x_0,c)|\le B$, and for every $r>0$ there is a time $T(r)$, not depending on $x_0$ and $c$, such that $|x(t;x_0,c)|\le r$ for all $t\ge T(r)$;
-\item \emph{uniformly controlled} if there is a number $B_1$, not depending on $t$, $x_0$ and $c$, such that $|u(t;x_0,c)|\le B_1$;
-\item \emph{uniformly switched} if there is a number $N$, not depending on $x_0$ and $c$, such that every time interval of length $1$ contains at most $N$ switches of the branch.
+\item[(a)] every $x_0\in\mathcal V$ has a lift $z_0\in D$, $F_c(z_0)=x_0$;
+\item[(b)] $F_c(0)=0$ and $|F_c(z)-F_c(z')|\le K|z-z'|$ for $z,z'\in D$;
+\item[(c)] $|h_c(F_c(z),z)|\le B_1$ for $z\in D$;
+\item[(d)] every time interval of length $1$ contains at most $N$ switches of the branch.
 \end{itemize}
-The \emph{branching QBC ultrastability problem} is to find a branching feedback under which the family is uniformly bounded and attracting, uniformly controlled and uniformly switched.
+\end{definition}
+
+For every plant the state is $x(t)=F_c(z(t))$ with $z(t)\in D$, so by (b) $|x(t)|\le K|z(t)|$: a bound on $|z(t)|$ gives a bound on $|x(t)|$, with the same $K$ for all $c$. Write $x(t;x_0,c)$ and $u(t;x_0,c)$ for the state and the control starting from $x_0\in\mathcal V$. If the reference attracts $D$ to $z=0$ uniformly, the family is
+\begin{itemize}
+\item \emph{uniformly bounded and attracting}: there is a number $B$, not depending on $t$, $x_0$ and $c$, such that $|x(t;x_0,c)|\le B$, and for every $r>0$ there is a time $T(r)$, not depending on $x_0$ and $c$, such that $|x(t;x_0,c)|\le r$ for all $t\ge T(r)$;
+\item \emph{uniformly controlled}: $|u(t;x_0,c)|\le B_1$;
+\item \emph{uniformly switched}: every time interval of length $1$ contains at most $N$ switches of the branch.
+\end{itemize}
+
+\begin{definition}[robust ultrastability]\label{def:robust}
+Let a family of plants $\dot x=v_c(x,u)$ be given by a parameter $c$ in a set $\mathcal C$. Let one reference $\dot z=w(z)$, one coupling $u=h(x,z)$ and one finite map $x=F(z)$ be given (for example, the coupling manifold of one plant, not necessarily of the family), and with them one branching feedback $u(x,j)$ and one switching law, not depending on $c$; write $p(z)=h\bigl(F(z),z\bigr)$. Off $\Sig$ the closed loop of the plant $c$ lifts through $F$ to the field
+\[
+  \dot z=w_c(z)=\bigl(\partial_zF(z)\bigr)^{-1}v_c\bigl(F(z),p(z)\bigr),
+\]
+and the closed loop is the image of $w_c$ under $F$. The \emph{branching QBC robust ultrastability problem} on a neighbourhood $\mathcal V$ of $x=0$ is to find such a feedback, satisfying (a)--(d) of Definition~\ref{def:ultra} for $F$ with a set $D$ that every $w_c$ keeps forward invariant, such that the lifted references $w_c$ have the behaviour asked of $w$, with constants not depending on $c$. The closed loop of a plant need not be the image of the reference for all plants (but could be for one of them).
 \end{definition}
 
 \begin{remark}[ultrastability and finite equivalence]
-Our approach to equivalence of systems, which originated in singularity theory and Ashby's ideas, is reminiscent of an approach that originated in symbolic dynamics: finite equivalence by W.~Parry \cite{Parry1977}. Two systems are finitely equivalent if they have a common finite cover, mapped onto both by finite-to-one maps that carry trajectories to trajectories; here $x(t)=F_c(z(t))$. In our solutions of the ultrastability problem, the degree of $F_c$, $|F_c|$ and the size of the lifts, the steepness of $F_c$ away from its branch set, and the number of crossings of the cuts per unit time are bounded by numbers not depending on $c$. These are only similarities: Parry's finite equivalence concerns a single pair of systems and is defined through the maps of a common cover, while our definition of ultrastability is stated through common bounds on the state, the control and the switches for the whole family; the robust ultrastability of Proposition~\ref{prop:robust} is also outside Parry's picture.
+Our approach to equivalence of systems, which originated in singularity theory and Ashby's ideas, is reminiscent of an approach that originated in symbolic dynamics: finite equivalence by W.~Parry \cite{Parry1977}. Two systems are finitely equivalent if they have a common finite cover, mapped onto both by finite-to-one maps that carry trajectories to trajectories; here $x(t)=F_c(z(t))$. In our solutions of the ultrastability problem, the degree of $F_c$, $|F_c|$ and the size of the lifts, and the number of crossings of the cuts per unit time are bounded by numbers not depending on $c$. These are no more than similarities: Parry's finite equivalence concerns a single pair of systems and is defined through the maps of a common cover, while our definitions are stated through common bounds on the coupling manifolds, the lifts, the control and the switches for the whole family; the robust ultrastability of Proposition~\ref{prop:robust} is also outside Parry's picture.
+\end{remark}
+
+\begin{remark}[steepness of the branches]\label{rem:steep}
+For an estimate of the influence of errors, it is useful to have a uniform estimate of the steepness of the branches depending on the distance from the caustic. For the robust feedback of Proposition~\ref{prop:robust} it is explicit: $|du/dx|=\frac1n|n\Lambda\lambda_0|^{1/n}|x|^{-(n-1)/n}$ on every branch, where $|x|$ is the distance from the caustic $\{0\}$, for every plant.
+
+For the families of Theorem~\ref{thm:generic} a bound through the distance from the caustic of the same plant does not hold in general. For example, for $x=z^{3}/3+cz$ with $c>0$ the caustic is empty, while the steepness of the inverse at $x=0$ is $1/c$; at $c=0$ a pair of critical points is born at $z=0$.
+
+A bound holds through the distance in the joint space of $x$ and $c$. Let $F(z,c)$ be the coupling manifold of the plant $c$, analytic on a neighbourhood of $D'\times K'$, where $K'$ is a compact neighbourhood of $K$ and $D'$ is a closed disc slightly larger than $|z|\le Z_1$. Let $J=|F_z|^{2}-|F_{\bar z}|^{2}$ be the Jacobian of $z\mapsto F(z,c)$, and let $C$ be the set of the points $\bigl(F(w,c'),c'\bigr)$ with $J(w,c')=0$, $w\in D'$, $c'\in K'$: the caustics of all these plants together. Then there are $M$ and $k$, not depending on $c\in K$, such that
+\[
+  \|DF(z,c)^{-1}\|\le M\operatorname{dist}\bigl((F(z,c),c),C\bigr)^{-k}\qquad\text{for }|z|\le Z_1,\ c\in K .
+\]
+\emph{Proof.} Let $\sigma_{\max}\ge\sigma_{\min}$ be the singular values of $DF$. Then $\|DF^{-1}\|=1/\sigma_{\min}=\sigma_{\max}/|J|\le L/|J|$, where $L$ bounds $\sigma_{\max}$ by the Cauchy estimates, as in Step~3 of the proof of Theorem~\ref{thm:generic}. By the \L{}ojasiewicz inequality \cite{Lojasiewicz1959}, $|J(z,c)|\ge m\operatorname{dist}\bigl((z,c),J^{-1}(0)\bigr)^{k}$ with $m>0$ (if $J$ has no zeros, $|J|$ has a positive minimum). The map $(z,c)\mapsto(F(z,c),c)$ is Lipschitz with some constant $L'$ and carries $J^{-1}(0)$ to $C$, so the distance from $(F(z,c),c)$ to $C$ is at most $L'$ times the distance from $(z,c)$ to $J^{-1}(0)$. Hence $M=LL'^{k}/m$. The set $C$ includes plants with $c'$ outside $K$, since a birth just outside $K$ already makes the branches steep for the plants at the edge of $K$.
 \end{remark}
 
 \subsection{The generic family of deformations of the model}\label{sec:three}
@@ -556,14 +610,14 @@ We now state one result for a generic analytic family of plants through the mode
 \]
 where the parameter $c$ ranges over a closed bounded set $K\subset\mathbb R^{k}$, $P_0$ collects the terms without $x$ and $Q$ the terms that contain $x$ or $\bar x$. The coefficients of $P_0$ and $Q$ depend analytically on $c$ on a neighbourhood of $K$. We consider two kinds of families; in both the sums run over $1\le p+q\le n$, $(p,q)\ne(n,0)$.
 \begin{enumerate}
-\item \emph{Tones of fixed amplitude.} $P_0=u^{n}+\sum G_{pq}u^{p}\bar u^{q}$, where for every $c\in K$ the terms of degree $n$ in $\bar u$ are dominated by $u^{n}$:
+\item \emph{A family with tones.} $P_0=u^{n}+\sum G_{pq}u^{p}\bar u^{q}$, where for every $c\in K$ the terms of total degree $n$ other than $u^{n}$, those with $p+q=n$ and $q\ge1$, are dominated by $u^{n}$:
 \[
   \sum_{p+q=n}\frac{|G_{pq}|}{|p\lambda_0+q\bar\lambda_0|}<\frac1{n|\lambda_0|},
 \]
 and the power series of $Q$ converges for $|x|<2$ and all $u$ (for example, $Q$ is a polynomial).
-\item \emph{Small deformations.} $P_0=u^{n}+\sum\varepsilon_{pq}u^{p}\bar u^{q}+R(u,\bar u,c)$, where $|\varepsilon_{pq}|\le\varepsilon_0$, all terms of $R$ have degree greater than $n$, and the power series of $P_0$ and $Q$ converge for $|u|<R_0$, $|x|<2$, with some $R_0>0$.
+\item \emph{A family of small deformations.} $P_0=u^{n}+\sum G_{pq}u^{p}\bar u^{q}+R(u,\bar u,c)$, where $|G_{pq}|\le g_0$, all terms of $R$ have degree greater than $n$, and the power series of $P_0$ and $Q$ converge for $|u|<R_0$, $|x|<2$, with some $R_0>0$.
 \end{enumerate}
-Kind~1 contains the deformations by lower powers of $u$ (the terms with $q=0$), the tones of fixed amplitude, and with them any terms $Q$ that contain $x$: damping and detuning $(-\gamma+i\sigma)x$, a term in $\bar x$, the Duffing term $|x|^{2}x$ and the parallel-plate term $|u|^{2}x$, none of them required to be small. Kind~2 contains all small deformations of $u^{n}$, with arbitrary terms of degree greater than $n$.
+A family with tones contains the deformations by lower powers of $u$ (the terms with $q=0$), the tones of fixed amplitude, and with them any terms $Q$ that contain $x$: damping and detuning $(-\gamma+i\sigma)x$, a term in $\bar x$, the Duffing term $|x|^{2}x$ and the parallel-plate term $|u|^{2}x$, none of them required to be small. A family of small deformations contains all small deformations of $u^{n}$, with arbitrary terms of degree greater than $n$.
 
 If $P_0=\sum a_{pq}(c)u^{p}\bar u^{q}$, the sum over $p+q\ge1$, we call
 \[
@@ -572,39 +626,81 @@ If $P_0=\sum a_{pq}(c)u^{p}\bar u^{q}$, the sum over $p+q\ge1$, we call
 the \emph{main part}; for $Q=0$ it is the coupling manifold of the reference $\dot z=\lambda_0z$ and the coupling $u=z$ (see the proof below). The divisors do not vanish: $|p\lambda_0+q\bar\lambda_0|\ge(p+q)|\operatorname{Re}\lambda_0|$.
 
 \begin{theorem}[the generic family]\label{thm:generic}
-Let the family be of kind~1, or of kind~2 with $\varepsilon_0$ small enough. There exist $\Lambda_0$, $\rho>0$ and $Z_1>0$ such that for every $\Lambda\ge\Lambda_0$ the reference $\dot z=\Lambda\lambda_0z$ and the coupling $u=z$, with the cuts and the switching rule of the proof, solve the branching QBC ultrastability problem (Definition~\ref{def:ultra}) for this family on the disc $\mathcal V$: $|x|<\rho/(2\Lambda)$, with the control $u(t)=z(t)$ bounded by $Z_1$ and continuous in $t$. The same holds for a finite union of such families with the same $\lambda_0$.
+Let the family be a family with tones, or a family of small deformations with $g_0$ small enough. Take the reference $\dot z=\Lambda\lambda_0z$ and the coupling $u=z$, with the cuts and the switching rule of the proof. There are $\Lambda_0$, $\rho>0$ and $Z_1>0$ such that for every $\Lambda\ge\Lambda_0$:
+\begin{enumerate}
+\item[\textup{(i)}] the reference and the coupling solve the branching QBC ultrastability problem (Definition~\ref{def:ultra}) for the family on the disc $\mathcal V$: $|x|<\rho/(2\Lambda)$;
+\item[\textup{(ii)}] the control $u(t)=z(t)$ is continuous in $t$ and bounded by $Z_1$.
+\end{enumerate}
+The same holds for a finite union of such families with the same $\lambda_0$.
 \end{theorem}
 
 \begin{proof}
 \emph{Step 1: the main part covers a neighbourhood of $0$ in the same way for all $c$.} We show that there are numbers $0<Z_1<Z_2$ and $\rho>0$ such that $P_0$ and $Q$ converge for $|u|\le2Z_2$, $|x|\le1$, and for every $c\in K$:
 \begin{itemize}
 \item[(a)] $|\tilde F_c(z)|\ge\rho$ for $Z_1\le|z|\le Z_2$;
-\item[(b)] $|\tilde F_c(z)|>2A$ on the circle $|z|=Z_2$, where $A$ is the largest value of $|\tilde F_c(z)|$ over $|z|\le Z_1$ and $c\in K$;
+\item[(b)] $|\tilde F_c(z)|>2S$ on the circle $|z|=Z_2$, where $S$ is the largest value of $|\tilde F_c(z)|$ over $|z|\le Z_1$ and $c\in K$;
 \item[(c)] the closed curve $\varphi\mapsto\tilde F_c(Z_2e^{i\varphi})$ winds around $0$ $n$ times.
 \end{itemize}
-So the points near $0$ have lifts under $\tilde F_c$, all of them in the disc $|z|<Z_1$, and the circle $|z|=Z_2$ is mapped far from them. Note that $\rho\le A$, by (a) on $|z|=Z_1$.
+So the points near $0$ have lifts under $\tilde F_c$, all of them in the disc $|z|<Z_1$, and the circle $|z|=Z_2$ is mapped far from them. Note that $\rho\le S$, by (a) on $|z|=Z_1$.
 
-\emph{Kind 1.} The left-hand side of the domination condition is continuous in $c$ and $K$ is closed and bounded, so there is $\eta_0>0$ with $\sum_{p+q=n}|G_{pq}|/|p\lambda_0+q\bar\lambda_0|\le(1-\eta_0)/(n|\lambda_0|)$ for all $c\in K$. Let $\tilde F_n$ be the part of $\tilde F_c$ of degree $n$. On $|z|=1$ the terms of $\tilde F_n$ other than $z^{n}/(n\lambda_0)$ add at most $(1-\eta_0)/(n|\lambda_0|)$, so $|\tilde F_n(z)|\ge\eta_0|z|^{n}/(n|\lambda_0|)$ for all $z$. The terms of lower degree have bounded coefficients, so $|\tilde F_c(z)-\tilde F_n(z)|\le C_5|z|^{n-1}$ for $|z|\ge1$. Take $Z_1=\max\bigl(1,2nC_5|\lambda_0|/\eta_0\bigr)$; then $|\tilde F_c(z)|\ge\eta_0|z|^{n}/(2n|\lambda_0|)\ge\rho$ for $|z|\ge Z_1$, with $\rho=\eta_0/(2n|\lambda_0|)$. Take $Z_2>Z_1$ with $\eta_0Z_2^{n}/(2n|\lambda_0|)>2A$. On $|z|=Z_2$ we have $|\tilde F_c(z)-z^{n}/(n\lambda_0)|\le(1-\eta_0/2)Z_2^{n}/(n|\lambda_0|)<|z^{n}/(n\lambda_0)|$, so $\tilde F_c$ winds around $0$ as $z^{n}$ does, $n$ times. $P_0$ is a polynomial, and $Q$ converges for all $u$.
+\emph{A family with tones.} The left-hand side of the domination condition is continuous in $c$ and $K$ is closed and bounded, so there is $\eta_0>0$ with $\sum_{p+q=n}|G_{pq}|/|p\lambda_0+q\bar\lambda_0|\le(1-\eta_0)/(n|\lambda_0|)$ for all $c\in K$. Let $\tilde F_n$ be the part of $\tilde F_c$ of degree $n$. On $|z|=1$ the terms of $\tilde F_n$ other than $z^{n}/(n\lambda_0)$ add at most $(1-\eta_0)/(n|\lambda_0|)$, so $|\tilde F_n(z)|\ge\eta_0|z|^{n}/(n|\lambda_0|)$ for all $z$. The terms of lower degree have bounded coefficients, so $|\tilde F_c(z)-\tilde F_n(z)|\le C_5|z|^{n-1}$ for $|z|\ge1$. Take $Z_1=\max\bigl(1,2nC_5|\lambda_0|/\eta_0\bigr)$; then $|\tilde F_c(z)|\ge\eta_0|z|^{n}/(2n|\lambda_0|)\ge\rho$ for $|z|\ge Z_1$, with $\rho=\eta_0/(2n|\lambda_0|)$. Take $Z_2>Z_1$ with $\eta_0Z_2^{n}/(2n|\lambda_0|)>2S$. On $|z|=Z_2$ we have $|\tilde F_c(z)-z^{n}/(n\lambda_0)|\le(1-\eta_0/2)Z_2^{n}/(n|\lambda_0|)<|z^{n}/(n\lambda_0)|$, so $\tilde F_c$ winds around $0$ as $z^{n}$ does, $n$ times. $P_0$ is a polynomial, and $Q$ converges for all $u$.
 
-\emph{Kind 2.} Let $Z_2\le\min(1,R_0/4)$ be so small that the part of $\tilde F_c$ coming from $R$ is at most $|z|^{n}/(4n|\lambda_0|)$ on $|z|\le Z_2$; this is possible since that part has degree greater than $n$ and its coefficients are those of $R$ divided by numbers of modulus at least $|\operatorname{Re}\lambda_0|$. Let $Z_1=Z_2/3$, and let $\varepsilon_0$ be so small that the part coming from the $\varepsilon_{pq}$ is at most $Z_1^{n}/(4n|\lambda_0|)$ on $|z|\le Z_2$. Then for $Z_1\le|z|\le Z_2$, $|\tilde F_c(z)|\ge\frac34|z|^{n}/(n|\lambda_0|)-Z_1^{n}/(4n|\lambda_0|)\ge Z_1^{n}/(2n|\lambda_0|)=\rho$; for $|z|\le Z_1$, $|\tilde F_c(z)|\le\frac32Z_1^{n}/(n|\lambda_0|)$, so $A\le\frac32Z_1^{n}/(n|\lambda_0|)$; and on $|z|=Z_2=3Z_1$, $|\tilde F_c(z)|\ge(\frac34\cdot3^{n}-\frac14)Z_1^{n}/(n|\lambda_0|)>2A$, and $\tilde F_c$ winds around $0$ $n$ times, as $z^{n}$ does, since the other terms are smaller than $|z|^{n}/(n|\lambda_0|)$ there.
+\emph{A family of small deformations.} Let $Z_2\le\min(1,R_0/4)$ be so small that the part of $\tilde F_c$ coming from $R$ is at most $|z|^{n}/(4n|\lambda_0|)$ on $|z|\le Z_2$; this is possible since that part has degree greater than $n$ and its coefficients are those of $R$ divided by numbers of modulus at least $|\operatorname{Re}\lambda_0|$. Let $Z_1=Z_2/3$, and let $g_0$ be so small that the part coming from the $G_{pq}$ is at most $Z_1^{n}/(4n|\lambda_0|)$ on $|z|\le Z_2$. Then for $Z_1\le|z|\le Z_2$, $|\tilde F_c(z)|\ge\frac34|z|^{n}/(n|\lambda_0|)-Z_1^{n}/(4n|\lambda_0|)\ge Z_1^{n}/(2n|\lambda_0|)=\rho$; for $|z|\le Z_1$, $|\tilde F_c(z)|\le\frac32Z_1^{n}/(n|\lambda_0|)$, so $S\le\frac32Z_1^{n}/(n|\lambda_0|)$; and on $|z|=Z_2=3Z_1$, $|\tilde F_c(z)|\ge(\frac34\cdot3^{n}-\frac14)Z_1^{n}/(n|\lambda_0|)>2S$, and $\tilde F_c$ winds around $0$ $n$ times, as $z^{n}$ does, since the other terms are smaller than $|z|^{n}/(n|\lambda_0|)$ there.
 
-\emph{Step 2: the coupling manifold.} Write $\lambda=\Lambda\lambda_0$, and $P(x,u)$, $P_0(u)$, $Q(x,u)$ for $P(x,\bar x,u,\bar u,c)$, $P_0(u,\bar u,c)$, $Q(x,\bar x,u,\bar u,c)$. The coupling manifold $M=\graph(x=F(z))$ must be \emph{invariant}: a state that starts on $M$, $x_0=F(z_0)$, stays on $M$, $x(t)=F(z(t))$, while $z$ follows the reference and $u=z$. This holds when $x(t)=F(z(t))$ solves the plant with $u(t)=z(t)$, that is, when $\frac{d}{dt}F(z(t))=P(F(z(t)),z(t))$. Since $z(t)\to0$, it holds when
+\emph{Step 2: the coupling manifold.} Write $\lambda=\Lambda\lambda_0$, and $P(x,u)$, $P_0(u)$, $Q(x,u)$ for $P(x,\bar x,u,\bar u,c)$, $P_0(u,\bar u,c)$, $Q(x,\bar x,u,\bar u,c)$.
+
+\emph{The invariance equation.} The coupling manifold $M=\graph(x=F(z))$ must be \emph{invariant}: a state that starts on $M$, $x_0=F(z_0)$, stays on $M$, $x(t)=F(z(t))$, while $z$ follows the reference and $u=z$. This holds when $\frac{d}{dt}F(z(t))=P(F(z(t)),z(t))$. Since $z(t)\to0$, it holds when
 \[
-  F(z_0)=-\int_0^\infty P\bigl(F(z_0e^{\lambda\tau}),z_0e^{\lambda\tau}\bigr)\,d\tau\qquad\text{for all }z_0,
+  F(z_0)=-\int_0^\infty P\bigl(F(z_0e^{\lambda\tau}),z_0e^{\lambda\tau}\bigr)\,d\tau\qquad\text{for all }z_0.
 \]
-because at $z_0=z(t)$ the right-hand side is $-\int_t^\infty P\bigl(F(z(\tau')),z(\tau')\bigr)d\tau'$, whose derivative in $t$ is $P\bigl(F(z(t)),z(t)\bigr)$. For a monomial, $-\int_0^\infty z_0^{p}\bar z_0^{q}e^{(p\lambda+q\bar\lambda)\tau}d\tau=z_0^{p}\bar z_0^{q}/(p\lambda+q\bar\lambda)$, and $p\lambda+q\bar\lambda=\Lambda(p\lambda_0+q\bar\lambda_0)$; so the part $P_0$ gives $\tilde F_c/\Lambda$, and for $Q=0$ the coupling manifold is $x=\tilde F_c(z)/\Lambda$. The picture in $z$, with its lifts, folds and branches, does not depend on $\Lambda$; only $x$ is scaled by $1/\Lambda$, and this makes the terms $Q$ small. With $Q$, write $F=(\tilde F_c+\Psi)/\Lambda$; then
+Indeed, at $z_0=z(t)$ the right-hand side is $-\int_t^\infty P\bigl(F(z(\tau')),z(\tau')\bigr)d\tau'$, and its derivative in $t$ is $P\bigl(F(z(t)),z(t)\bigr)$.
+
+\emph{Without $Q$.} For a monomial, $-\int_0^\infty z_0^{p}\bar z_0^{q}e^{(p\lambda+q\bar\lambda)\tau}d\tau=z_0^{p}\bar z_0^{q}/(p\lambda+q\bar\lambda)$, and $p\lambda+q\bar\lambda=\Lambda(p\lambda_0+q\bar\lambda_0)$. So the part $P_0$ gives $\tilde F_c/\Lambda$, and for $Q=0$ the coupling manifold is $x=\tilde F_c(z)/\Lambda$. The picture in $z$, with its lifts, folds and branches, does not depend on $\Lambda$. Only $x$ is scaled by $1/\Lambda$, and this makes the terms $Q$ small.
+
+\emph{With $Q$.} Write $F=(\tilde F_c+\Psi)/\Lambda$. Then
 \[
   \Psi(z_0)=-\Lambda\int_0^\infty Q\Bigl(\frac{(\tilde F_c+\Psi)(z_0e^{\lambda\tau})}{\Lambda},\ z_0e^{\lambda\tau}\Bigr)\,d\tau .
 \]
-By Step 1 and since $K$ is closed and bounded, there are $C_3$ and $L$, independent of $c$ and $\Lambda$, with $|\tilde F_c(z)|\le C_3|z|$ on $|z|\le2Z_2$, and, since every term of $Q$ contains $x$ or $\bar x$, $|Q(x,u)|\le L|x|$ and $|Q(x,u)-Q(x',u)|\le L|x-x'|$ for $|x|,|x'|\le1$, $|u|\le2Z_2$. We solve the equation for $\Psi$ by repeated substitution on the functions $\Psi$ on $|z|\le2Z_2$ with $|\Psi(z)|\le|z|$; the disc is kept by the reference, since $|z_0e^{\lambda\tau}|\le|z_0|$. For such $\Psi$ and $\Lambda\ge2(C_3+1)Z_2$ the argument $x$ of $Q$ has $|x|\le1$. As $\int_0^\infty|z_0e^{\lambda\tau}|\,d\tau=|z_0|/(\Lambda|\operatorname{Re}\lambda_0|)$, the right-hand side is at most $L(C_3+1)|z_0|/(\Lambda|\operatorname{Re}\lambda_0|)$, and two such $\Psi$ give values that differ at most by $L/(\Lambda|\operatorname{Re}\lambda_0|)$ times $\sup|\Psi-\Psi'|/|z|$, times $|z_0|$. For $\Lambda\ge2L(C_3+1)/|\operatorname{Re}\lambda_0|$ the substitution keeps $|\Psi(z)|\le|z|$ and halves distances, so it converges to a solution. The same substitution with $z$, $\bar z$ and $c$ replaced by independent complex variables near their real values converges uniformly, so $\Psi$, and $F$, are real-analytic in $z$, $\bar z$ and $c$. Moreover $|\Psi(z)|\le\delta_\Lambda|z|$ with $\delta_\Lambda=L(C_3+1)/(\Lambda|\operatorname{Re}\lambda_0|)$; we take $\Lambda_0$ so large that also $\delta_\Lambda Z_2\le\rho/4$.
 
-\emph{Step 3: neighbourhoods.} Let $\mathcal W$ be the disc $|x|<7A/(4\Lambda)$ and $U$ the set of points $|z|<Z_2$ with $|\Lambda F(z)|<7A/4$. On $|z|=Z_2$ we have $|\Lambda F|\ge2A-\rho/4>7A/4$. Hence $F$ maps $U$ into $\mathcal W$ with compact preimages of compact sets, and onto: for $y$ in $\mathcal W$, the curves $\tilde F_c+s\Psi-sy\Lambda$, $0\le s\le1$, on $|z|=Z_2$ do not pass through $0$, so $\Lambda F-\Lambda y$ winds around $0$ as $\tilde F_c$ does, $n$ times, and $y$ has a lift in $U$. For $Z_1\le|z|\le Z_2$ we have $|\Lambda F|\ge\rho-\rho/4>\rho/2$, so every lift in $U$ of a point of $\mathcal V$ has $|z_0|<Z_1$. Along the reference $|z(t)|\le|z_0|<Z_1$, so the control $u=z(t)$ is bounded by $Z_1$, the state $x(t)=F(z(t))$ stays in $\mathcal W$, as $|\Lambda F|\le A+\rho/4<7A/4$ there, and $|x(t)|\le(C_3+1)|z_0|e^{t\operatorname{Re}\lambda}/\Lambda$ tends to $0$, uniformly: the family is uniformly bounded and attracting and uniformly controlled.
+\emph{Constants.} By Step 1, $P_0$ and $Q$ converge for $|u|\le2Z_2$, $|x|\le1$. Since $K$ is closed and bounded, there are $C_3$ and $C_4$, independent of $c$ and $\Lambda$, with $|\tilde F_c(z)|\le C_3|z|$ on $|z|\le2Z_2$. Every term of $Q$ contains $x$ or $\bar x$, so $|Q(x,u)|\le C_4|x|$ and $|Q(x,u)-Q(x',u)|\le C_4|x-x'|$ for $|x|,|x'|\le1$, $|u|\le2Z_2$.
 
-\emph{Step 4: uniform finiteness.} We use the theorem of Gabrielov \cite{Gabrielov1968} on projections, in the form of \cite{DenefvdDries1988,vdDries1998}. Take finitely many real-analytic functions on a neighbourhood of a closed box, whose coordinates split into parameters and the remaining variables, and a set in the box described by equations and inequalities between these functions and by ``there exists'' over some of the variables. Then the number of connected components of the set of the remaining variables is bounded by one number for all values of the parameters \cite[Ch.~3]{vdDries1998}. Our parameters range over closed bounded sets, not boxes: we cover them by finitely many small closed boxes on neighbourhoods of which $F$ is analytic, apply the theorem on each and take the sum of the bounds. The critical set is $\Sig=\{z\in U:|F_z|=|F_{\bar z}|\}$, and its image $F(\Sig)$, as a set of $x$ with the parameter $c$, is of this kind: $x\in F(\Sig)$ when there exists $z$ with $|z|<Z_2$, $|\Lambda F(z)|<7A/4$, $|F_z|=|F_{\bar z}|$ and $F(z)=x$. So $F(\Sig)$ has at most $N_1$ connected components.
+\emph{Solving for $\Psi$.} We use repeated substitution on the functions $\Psi$ on $|z|\le2Z_2$ with $|\Psi(z)|\le|z|$. The reference keeps this disc, since $|z_0e^{\lambda\tau}|\le|z_0|$. For such $\Psi$ and $\Lambda\ge2(C_3+1)Z_2$, the argument $x$ of $Q$ has $|x|\le1$. Since $\int_0^\infty|z_0e^{\lambda\tau}|\,d\tau=|z_0|/(\Lambda|\operatorname{Re}\lambda_0|)$, the right-hand side is at most $C_4(C_3+1)|z_0|/(\Lambda|\operatorname{Re}\lambda_0|)$. Two such $\Psi$ give values that differ at most by $C_4/(\Lambda|\operatorname{Re}\lambda_0|)$ times $\sup|\Psi-\Psi'|/|z|$, times $|z_0|$. For $\Lambda\ge2C_4(C_3+1)/|\operatorname{Re}\lambda_0|$ the substitution keeps $|\Psi(z)|\le|z|$ and halves distances. So it converges to a solution.
 
-\emph{Step 5: branches and cuts.} The cuts are the parts in $\mathcal W$ of the two coordinate axes and, for each connected component of $F(\Sig)$, of one line through $0$ that meets it; there are at most $N_1+2$ cuts. Their union $D$ with $F(\Sig)$ is connected and reaches the boundary circle of $\mathcal W$, so every connected component of the complement of $D$ in $\mathcal W$ is simply connected. Over it $F\colon U\to\mathcal W$ has no critical values and has compact preimages of compact sets, so it is a finite covering, hence trivial, and its lifts form branches $\zeta_j(x)$. The feedback is $u=\zeta_j(x)$ while $x(t)$ is off $D$. On $D$ the controller uses the programmed control of \S\ref{sec:core}, item~(i): when $x(t)$ reaches $D$ at a moment $t_1$, with $z(t_1)=u(t_1-0)$, or starts on $D$ at $t_1=0$, with a lift $z(t_1)$ of $x_0$ in $U$ chosen by the controller, it applies $u(t)=z(t)=z(t_1)e^{\lambda(t-t_1)}$ for as long as $x(t)$ stays on $D$, possibly for all $t$; by invariance $x(t)=F(z(t))$. When $x(t)$ leaves $D$, the new label is that of the branch through $z(t)$. Off $D$ the branches are analytic, so the closed loop $\dot x=P\bigl(x,\zeta_j(x)\bigr)$ has unique solutions, and the solution is again $F(z(t))$. So in all cases $u(t)=z(t)$ and $x(t)=F(z(t))$ with $z(t)=z_0e^{\lambda t}$, the control is continuous in $t$, and the estimates of Step~3 hold.
+\emph{Analyticity and the bound on $\Psi$.} The same substitution, with $z$, $\bar z$ and $c$ replaced by independent complex variables near their real values, converges uniformly. So $\Psi$, and $F$, are real-analytic in $z$, $\bar z$ and $c$. Moreover $|\Psi(z)|\le\delta_\Lambda|z|$ with $\delta_\Lambda=C_4(C_3+1)/(\Lambda|\operatorname{Re}\lambda_0|)$. We take $\Lambda_0$ so large that also $\delta_\Lambda Z_2\le\rho/4$.
 
-\emph{Step 6: switches.} A switch can occur only when $x(t)$ meets $D$. On a time interval $[t_1,t_1+1]$ write $s=t-t_1$ and $z_1=z(t_1)$, $|z_1|\le Z_1$. Then $x(t)=\Phi(s)$, where $\Phi(s)=F(z_1e^{\lambda s})$ is real-analytic in $s$, $z_1$ and $c$ on a neighbourhood of the closed set $0\le s\le1$, $|z_1|\le Z_1$, $c\in K$; for $s$ in $[0,1]$ the factor $e^{\lambda s}$ is analytic and bounded. The moments $s$ at which $x(t)$ is on the line $e^{i\theta}\mathbb R$ are the solutions of $\operatorname{Im}\bigl(e^{-i\theta}\Phi(s)\bigr)=0$; with the parameters $z_1$, $c$ and $\theta\in[0,\pi]$ they form at most $N_2$ intervals and points. The moments at which $x(t)\in F(\Sig)$ are those for which there exists $z$ as above with $F(z)=\Phi(s)$; they form at most $N_3$ intervals and points. The moments in $[0,1]$ when $x(t)$ meets $D$ therefore form at most $(N_1+2)N_2+N_3$ pieces, intervals or points: at most $N_2$ for each of the at most $N_1+2$ cuts, and at most $N_3$ for $F(\Sig)$. The branch label does not change while $x(t)$ stays off $D$, and changes at most once at each piece, when $x(t)$ passes from the gap before it to the gap after it. So every time interval of length $1$ contains at most $N=(N_1+2)N_2+N_3$ switches, with $N$ independent of $x_0$ and $c$; this holds also if $x(t)$ runs along $D$ for a while. The family is uniformly switched.
+\emph{Step 3: neighbourhoods.} By Step 2, $\Lambda F=\tilde F_c+\Psi$ with $|\Psi|\le\rho/4$ on $|z|\le Z_2$. Let $\mathcal W$ be the disc $|x|<7S/(4\Lambda)$, and $\mathcal Z$ the set of points $|z|<Z_2$ with $|\Lambda F(z)|<7S/4$.
+
+\emph{$F$ maps $\mathcal Z$ onto $\mathcal W$.} On $|z|=Z_2$, by Step 1(b), $|\Lambda F|\ge2S-\rho/4>7S/4$. Hence $F$ maps $\mathcal Z$ into $\mathcal W$, with compact preimages of compact sets. It is also onto. Take $y$ in $\mathcal W$. The curves $\tilde F_c+s\Psi-s\Lambda y$, $0\le s\le1$, on $|z|=Z_2$ do not pass through $0$. So $\Lambda F-\Lambda y$ winds around $0$ as $\tilde F_c$ does, $n$ times, and $y$ has a lift in $\mathcal Z$.
+
+\emph{The lifts are small.} For $Z_1\le|z|\le Z_2$, by Step 1(a), $|\Lambda F|\ge\rho-\rho/4>\rho/2$. So every lift in $\mathcal Z$ of a point of $\mathcal V$ has $|z_0|<Z_1$.
+
+\emph{Bounds along the motion.} Along the reference, $|z(t)|\le|z_0|<Z_1$. So the control $u=z(t)$ is bounded by $Z_1$. The state $x(t)=F(z(t))$ stays in $\mathcal W$, since $|\Lambda F|\le S+\rho/4<7S/4$ there. And $|x(t)|\le(C_3+1)|z_0|e^{t\operatorname{Re}\lambda}/\Lambda$ tends to $0$, uniformly. So the family is uniformly bounded and attracting, and uniformly controlled. Moreover, by Step~2, $\Lambda F_c=\tilde F_c+\Psi$ continues to a bounded analytic function of $z$, $\bar z$ and $c$ taken as independent complex variables near $|z|\le2Z_2$, $c\in K$. By the Cauchy estimates, its derivative on $|z|\le Z_1$ is bounded by a number not depending on $c$. So (b) of Definition~\ref{def:ultra} holds on $D=\{|z|\le Z_1\}$, with $K$ not depending on $c$.
+
+\emph{Step 4: uniform finiteness.}
+
+\emph{The theorem.} We use the theorem of Gabrielov \cite{Gabrielov1968} on projections, in the form of \cite{DenefvdDries1988,vdDries1998}. Take finitely many real-analytic functions on a neighbourhood of a closed box. Split the coordinates of the box into parameters and the remaining variables. Take a set in the box described by equations and inequalities between these functions, and by ``there exists'' over some of the variables. Then, for each value of the parameters, the set of the remaining variables has at most a certain number of connected components, the same number for all values of the parameters \cite[Ch.~3]{vdDries1998}.
+
+Our parameters range over closed bounded sets, not boxes. We cover them by finitely many small closed boxes, on neighbourhoods of which $F$ is analytic. We apply the theorem on each box and add the bounds.
+
+\emph{Its use here.} The critical set is $\Sig=\{z\in \mathcal Z:|F_z|=|F_{\bar z}|\}$. Its image $F(\Sig)$, as a set of $x$ with the parameter $c$, is a set of this kind: $x\in F(\Sig)$ when there exists $z$ with $|z|<Z_2$, $|\Lambda F(z)|<7S/4$, $|F_z|=|F_{\bar z}|$ and $F(z)=x$. So $F(\Sig)$ has at most $N_1$ connected components, with $N_1$ independent of $c$.
+
+\emph{Step 5: branches and cuts.}
+
+\emph{The cuts.} The cuts are the parts in $\mathcal W$ of the two coordinate axes and, for each connected component of $F(\Sig)$, of one line through $0$ that meets it. There are at most $N_1+2$ cuts. Let $D$ be the union of the cuts and $F(\Sig)$. $D$ is connected and reaches the boundary circle of $\mathcal W$. So every connected component of the complement of $D$ in $\mathcal W$ is simply connected.
+
+\emph{The branches.} Over such a component, $F\colon \mathcal Z\to\mathcal W$ has no critical values and has compact preimages of compact sets. So it is a finite covering, hence trivial, and its lifts form branches $\zeta_j(x)$. The feedback is $u=\zeta_j(x)$ while $x(t)$ is off $D$. Off $D$ the branches are analytic. So the closed loop $\dot x=P\bigl(x,\zeta_j(x)\bigr)$ has unique solutions, and the solution is $F(z(t))$.
+
+\emph{On $D$.} There the controller uses the programmed control of \S\ref{sec:core}, item~(i). Suppose $x(t)$ reaches $D$ at a moment $t_1$, with $z(t_1)=u(t_1-0)$, or starts on $D$ at $t_1=0$, with a lift $z(t_1)$ of $x_0$ in $\mathcal Z$ chosen by the controller. Then the controller applies $u(t)=z(t)=z(t_1)e^{\lambda(t-t_1)}$ for as long as $x(t)$ stays on $D$, possibly for all $t$. By invariance, $x(t)=F(z(t))$. When $x(t)$ leaves $D$, the new label is that of the branch through $z(t)$.
+
+\emph{Conclusion.} So in all cases $u(t)=z(t)$ and $x(t)=F(z(t))$, with $z(t)=z_0e^{\lambda t}$. The control is continuous in $t$, and the estimates of Step~3 hold.
+
+\emph{Step 6: switches.} A switch can occur only when $x(t)$ meets $D$.
+
+\emph{The motion over one unit of time.} Take a time interval $[t_1,t_1+1]$, and write $s=t-t_1$ and $z_1=z(t_1)$, with $|z_1|\le Z_1$. Then $x(t)=\Phi(s)$, where $\Phi(s)=F(z_1e^{\lambda s})$. $\Phi$ is real-analytic in $s$, $z_1$ and $c$ on a neighbourhood of the closed set $0\le s\le1$, $|z_1|\le Z_1$, $c\in K$. For $s$ in $[0,1]$ the factor $e^{\lambda s}$ is analytic and bounded.
+
+\emph{Meetings with $D$.} The moments $s$ at which $x(t)$ is on the line $e^{i\theta}\mathbb R$ are the solutions of $\operatorname{Im}\bigl(e^{-i\theta}\Phi(s)\bigr)=0$. With the parameters $z_1$, $c$ and $\theta\in[0,\pi]$, by the theorem of Step~4, they form at most $N_2$ intervals and points. The moments at which $x(t)\in F(\Sig)$ are those for which there exists $z$ as in Step~4 with $F(z)=\Phi(s)$. They form at most $N_3$ intervals and points. So the moments in $[0,1]$ when $x(t)$ meets $D$ form at most $(N_1+2)N_2+N_3$ pieces, intervals or points: at most $N_2$ for each of the at most $N_1+2$ cuts, and at most $N_3$ for $F(\Sig)$.
+
+\emph{Counting switches.} The branch label does not change while $x(t)$ stays off $D$. It changes at most once at each piece, when $x(t)$ passes from the gap before it to the gap after it. So every time interval of length $1$ contains at most $N=(N_1+2)N_2+N_3$ switches, with $N$ independent of $x_0$ and $c$. This holds also if $x(t)$ runs along $D$ for a while. The family is uniformly switched.
 
 \emph{Unions.} For a finite union of such families, apply the above to each of them and take the largest $\Lambda_0$; for a given $\Lambda$ take the smallest of the discs $\mathcal V$, the largest of the numbers $N$, the largest of the bounds $Z_1$ on the control, the largest of the state bounds and, for every $r$, the largest of the times $T(r)$.
 \end{proof}
@@ -648,25 +744,66 @@ By Proposition~\ref{prop:robust}, one feedback damps all of them with $\gamma,\s
 \medskip
 \emph{Future work.} Five questions are left open.
 \begin{enumerate}
-\item \emph{A fixed reference.} The Theorem needs a fast reference. For a given $\lambda_0$, with terms $Q$ that are not small, we do not know whether the coupling manifold exists on the disc that contains the lifts. For special subfamilies, the small deformations of $u^{n}$ and the plants of kind~1 whose only term in $x$ is $\varepsilon x$ with $|\varepsilon|\le|\operatorname{Re}\lambda_0|/2$, we will show separately that any $\lambda_0$ with $\operatorname{Re}\lambda_0<0$, $\operatorname{Im}\lambda_0\ne0$ works, with $\Lambda=1$. In practice this will help when the Duffing nonlinearity is strong.
-\item \emph{Larger neighbourhoods.} The disc $\mathcal V$ of the Theorem shrinks as $1/\Lambda$. For the plants of kind~1 whose only term in $x$ is $\varepsilon x$ with $|\varepsilon|\le|\operatorname{Re}\lambda_0|/2$, we will show separately that every bounded neighbourhood of $x=0$ works; for the generic family this is open. For the plants $\dot x=u^{n}+xA+\bar xB$ with $A$ and $B$ not depending on $u$, Proposition~\ref{prop:robust}, with $|x|\le1$ replaced by $|x|\le R$ and $L$ the bound on that disc, already gives the disc $|x|<R$ for every $R$. In practice this will help to damp oscillations of large amplitude.
-\item \emph{Other families.} Kind~1 needs the terms of degree $n$ in $\bar u$ to be dominated by $u^{n}$. When this fails, the main part $\tilde F_c$ need not cover a neighbourhood of $0$: for $n=2$ and $P_0=u\bar u$ it is $|z|^{2}/(2\operatorname{Re}\lambda_0)$ and takes values only on a ray. Families through such plants are not covered. In practice a result here would allow tones of degree $n$ as strong as $u^{n}$ itself, and would remove the need to check the domination inequality.
+\item \emph{A fixed reference.} The Theorem needs a fast reference. For a given $\lambda_0$, with terms $Q$ that are not small, we do not know whether the coupling manifold exists on the disc that contains the lifts. For special subfamilies, the small deformations of $u^{n}$ and the plants of a family with tones whose only term in $x$ is $\varepsilon x$ with $|\varepsilon|\le|\operatorname{Re}\lambda_0|/2$, we will show separately that any $\lambda_0$ with $\operatorname{Re}\lambda_0<0$, $\operatorname{Im}\lambda_0\ne0$ works, with $\Lambda=1$. In practice this will help when the Duffing nonlinearity is strong.
+\item \emph{Larger neighbourhoods.} The disc $\mathcal V$ of the Theorem shrinks as $1/\Lambda$. For the plants of a family with tones whose only term in $x$ is $\varepsilon x$ with $|\varepsilon|\le|\operatorname{Re}\lambda_0|/2$, we will show separately that every bounded neighbourhood of $x=0$ works; for the generic family this is open. For the plants $\dot x=u^{n}+xA+\bar xB$ with $A$ and $B$ not depending on $u$, Proposition~\ref{prop:robust}, with $|x|\le1$ replaced by $|x|\le R$ and $L$ the bound on that disc, already gives the disc $|x|<R$ for every $R$. In practice this will help to damp oscillations of large amplitude.
+\item \emph{Other families.} A family with tones needs the terms of total degree $n$ other than $u^{n}$ to be dominated by $u^{n}$. When this fails, the main part $\tilde F_c$ need not cover a neighbourhood of $0$: for $n=2$ and $P_0=u\bar u$ it is $|z|^{2}/(2\operatorname{Re}\lambda_0)$ and takes values only on a ray. Families through such plants are not covered. In practice a result here would allow tones of degree $n$ as strong as $u^{n}$ itself, and would remove the need to check the domination inequality.
 \item \emph{Robustness with tones.} Proposition~\ref{prop:robust} covers only the plants $\dot x=u^{n}+xA+\bar xB$. With tones the coupling manifold has folds: in the Example at the beginning of \S\ref{sec:three}, a tone $2v\bar u$ added to $\dot x=u^{2}$ gives the critical circle $|z|=2|v|$, mapped onto a deltoid. Robustness of the control in this case is not clear.
 \item \emph{Robust ultrastable Hopf bifurcation.} Below $A$ and $B$ are analytic functions of $x,\bar x,u,\bar u$ and of the parameter $c\in K$, as in Proposition~\ref{prop:robust}.
 
-\emph{Problem.} Reproduce, by branching QBC, the Andronov--Hopf bifurcation for all plants $\dot x=u^{n}+xA+\bar xB$ of Proposition~\ref{prop:robust} with one branching feedback, which depends on $\varepsilon$ but not on the plant (robustness), and so that the whole structure and behaviour are ultrastable with respect to the coefficients and the parameter $\varepsilon$: there are numbers $\varepsilon_0,C_0,R_1,R_2,N>0$, not depending on the plant or on $\varepsilon$, and for every plant an onset $\varepsilon_*$ with $|\varepsilon_*|\le\varepsilon_0/2$, such that for $|\varepsilon|\le\varepsilon_0$:\\
+\emph{Problem (robust ultrastable Andronov--Hopf bifurcation).} Reproduce, by branching QBC, the Andronov--Hopf bifurcation for all plants $\dot x=u^{n}+xA+\bar xB$ of Proposition~\ref{prop:robust}, as a robust ultrastability problem (the Definition of robust ultrastability in \S\ref{sec:deformations}) with $\varepsilon$ as an additional parameter. Find one branching feedback, depending on $\varepsilon$ but not on the plant, numbers $\varepsilon_0,C_0,R_1,R_2,N>0$, not depending on the plant or on $\varepsilon$, and for every plant an onset $\varepsilon_*$ with $|\varepsilon_*|\le\varepsilon_0/2$, such that for $|\varepsilon|\le\varepsilon_0$:\\
 -- for $\varepsilon<\varepsilon_*$ the origin attracts at rate at least $C_0|\varepsilon-\varepsilon_*|$;\\
 -- for $\varepsilon>\varepsilon_*$ the origin repels at rate at least $C_0(\varepsilon-\varepsilon_*)$, and there is one cycle; it attracts at rate at least $C_0(\varepsilon-\varepsilon_*)$ and lies in $R_1(\varepsilon-\varepsilon_*)^{n/2}\le|x|\le R_2(\varepsilon-\varepsilon_*)^{n/2}$;\\
 -- $|u|\le U$, with $U$ as in Proposition~\ref{prop:robust}, and every time interval of length $1$ contains at most $N$ switches.\\
-This is the analogue of Definition~\ref{def:ultra}, with the parameter $\varepsilon$ included.
+The ultrastable version, with the feedback built for each plant and the onset at $\varepsilon=0$ for every plant, is the Proposition (ultrastable Andronov--Hopf bifurcation) below.
 
 \emph{Reference and coupling.} The reference is the Andronov--Hopf family $\dot z=\Lambda\bigl((\varepsilon+i\nu)z-|z|^{2}z\bigr)$, $\nu>0$, with the parameter $\varepsilon$: for $\varepsilon<0$ its origin is stable, for $\varepsilon>0$ the circle $|z|^{2}=\varepsilon$ is an attracting cycle. The coupling is $u=z\bigl(n\Lambda(\varepsilon+i\nu-|z|^{2})\bigr)^{1/n}$, and the coupling manifold is $x=z^{n}$: for the model $\dot x=u^{n}$, if $x=z^{n}$ then $\dot x=nz^{n-1}\dot z=n\Lambda(\varepsilon+i\nu-|x|^{2/n})x=u^{n}$. So the closed loop of the model, $\dot x=n\Lambda(\varepsilon+i\nu-|x|^{2/n})x$, is the image of the reference under $x=z^{n}$, and has the cycle $|x|=\varepsilon^{n/2}$ for $\varepsilon>0$. The feedback must depend on $\varepsilon$, as in the synthesis of the Andronov--Hopf bifurcation in \S\ref{sec:generic-quadratic}; we put $\varepsilon$ in the reference and the coupling, so that the coupling manifold $x=z^{n}$ does not depend on $\varepsilon$. As a feedback, $u(x,j)=\omega^{\,j}\bigl(n\Lambda(\varepsilon+i\nu-|x|^{2/n})x\bigr)^{1/n}$, with the cut and switching rule of Theorem~\ref{thm:stab}; it does not depend on $A$ and $B$.
 
-\emph{What is shown.} Let $B=0$, and let $A=A(x,\bar x,c)$ not depend on $u$, with $|A|\le L$ and $|A_x|+|A_{\bar x}|\le M$ for $|x|\le1$, $c\in K$. Let $\Lambda\ge\max\bigl(2M,\,8L/n,\,2L/(n\nu),\,16M^{2}/(n^{2}\nu)\bigr)$ and $U^{n}\ge n\Lambda\sqrt{(5/4)^{2}+\nu^{2}}$. Then the feedback above solves the Problem with $\varepsilon_0=1/4$, $\varepsilon_*=-\operatorname{Re}A(0,c)/(n\Lambda)$, $C_0=\Lambda/6$, $R_1=(2/3)^{n/2}$, $R_2=2^{n/2}$: for $\varepsilon<\varepsilon_*$ the origin is exponentially stable, at $\varepsilon=\varepsilon_*$ it is asymptotically stable without exponential rate, and for $\varepsilon>\varepsilon_*$ it is unstable and one cycle, born from it, attracts every solution with $0<|x_0|\le1$. This covers the resonator of \S\ref{sec:three} without the parallel-plate term (see \emph{In practice} below). Proof in brief: with $\rho=|x|^{1/n}$ and the time $\tau=\Lambda t$ the closed loop gives $\frac{d}{d\tau}\log\rho=\varepsilon-\varepsilon_*-\rho^{2}+g$, where $|g|\le M\rho^{n}/(n\Lambda)\le M\rho^{2}/(n\Lambda)$ for $|x|\le1$; so $g$ only slightly changes the term $-\rho^{2}$, which gives an attracting annulus; and since the derivatives of $A$ in $\log\rho$ and in $\arg x$ are at most $nM\rho^{n}$ and $M\rho^{n}$, in the coordinates $(\log\rho,\arg x)$ the divergence is at most $-2\rho^{2}+2M\rho^{n}/\Lambda\le-\rho^{2}$, so every cycle in the annulus attracts, and there is only one. The rates and the switches: since $\Lambda\ge2M$, $|g|\le\rho^{2}/2$, so $\frac{d}{d\tau}\log\rho$ lies between $\varepsilon-\varepsilon_*-\frac32\rho^{2}$ and $\varepsilon-\varepsilon_*-\frac12\rho^{2}$. For $\varepsilon<\varepsilon_*$ this gives $\frac{d}{dt}\log|x|\le n\Lambda(\varepsilon-\varepsilon_*)$; for $\varepsilon>\varepsilon_*$ it gives $\frac{d}{dt}\log|x|\ge n\Lambda(\varepsilon-\varepsilon_*)/4$ while $\rho^{2}\le(\varepsilon-\varepsilon_*)/2$, and it puts the cycle in $\frac23(\varepsilon-\varepsilon_*)\le\rho^{2}\le2(\varepsilon-\varepsilon_*)$, which gives $R_1$ and $R_2$. On this annulus the divergence is at most $-\frac23(\varepsilon-\varepsilon_*)$, so the Floquet exponent of the cycle is at most $-\frac23\Lambda(\varepsilon-\varepsilon_*)$ in the time $t$. All these rates are at least $C_0|\varepsilon-\varepsilon_*|$ with $C_0=\Lambda/6$. Finally $\frac{d}{dt}\arg x$ lies between $n\Lambda\nu-L>0$ and $n\Lambda\nu+L$, so the fixed ray is crossed, and the branch switched, at most $N=\lceil1+(n\Lambda\nu+L)/(2\pi)\rceil$ times in every time interval of length $1$. Robustness costs the position of the onset: $\varepsilon_*$ depends on the plant; for $A=-\gamma$, a feedback built on a coupling manifold invariant for that plant gives, numerically, $\varepsilon_*=0$, but depends on $\gamma$.
+\emph{What is shown.} Let $B=0$, and let $A=A(x,\bar x,c)$ not depend on $u$. Assume $|A|\le L$ and $|A_x|+|A_{\bar x}|\le M$ for $|x|\le1$, $c\in K$. Let $\Lambda\ge\max\bigl(2M,\,8L/n,\,2L/(n\nu),\,16M^{2}/(n^{2}\nu)\bigr)$ and $U^{n}\ge n\Lambda\sqrt{(5/4)^{2}+\nu^{2}}$. Then the feedback above solves the Problem with $\varepsilon_0=1/4$, $\varepsilon_*=-\operatorname{Re}A(0,c)/(n\Lambda)$, $C_0=\Lambda/6$, $R_1=(2/3)^{n/2}$ and $R_2=2^{n/2}$. For $\varepsilon<\varepsilon_*$ the origin is exponentially stable. At $\varepsilon=\varepsilon_*$ it is asymptotically stable, without exponential rate. For $\varepsilon>\varepsilon_*$ it is unstable, and one cycle, born from it, attracts every solution with $0<|x_0|\le1$. This covers the resonator of \S\ref{sec:three} without the parallel-plate term (see \emph{In practice} below).
 
-\emph{Not covered.} Plants with $B\ne0$; plants with $A$ depending on $u$, for example with the parallel-plate term; terms without $x$ other than $u^{n}$. These cases will be considered in future work.
+\emph{Proof in brief: the cycle.} Put $\rho=|x|^{1/n}$ and $\tau=\Lambda t$. The closed loop gives $\frac{d}{d\tau}\log\rho=\varepsilon-\varepsilon_*-\rho^{2}+g$, with $|g|\le M\rho^{n}/(n\Lambda)\le M\rho^{2}/(n\Lambda)$ for $|x|\le1$. So $g$ only slightly changes the term $-\rho^{2}$, and there is an attracting annulus. The derivatives of $A$ in $\log\rho$ and in $\arg x$ are at most $nM\rho^{n}$ and $M\rho^{n}$. So in the coordinates $(\log\rho,\arg x)$ the divergence is at most $-2\rho^{2}+2M\rho^{n}/\Lambda\le-\rho^{2}$. Hence every cycle in the annulus attracts, and there is only one.
 
-\emph{In practice.} For the resonator of \S\ref{sec:three} with natural damping $\gamma$, detuning $\sigma$ and a Duffing term, $\dot x=u^{n}+(-\gamma+i\sigma)x+\delta|x|^{2}x$, the variable $x$ is the complex amplitude of the oscillation, and $\varepsilon$ is a setting of the controller. The feedback feeds the oscillation with strength $n\Lambda\varepsilon$ and feeds it less as $|x|$ grows (the term $-n\Lambda|x|^{2/n}$); the damping $\gamma$ drains it. If $n\Lambda\varepsilon<\gamma$, the oscillation dies out. If $n\Lambda\varepsilon>\gamma$, it grows until feeding and damping balance, and the resonator oscillates by itself, with amplitude about $(\varepsilon-\gamma/(n\Lambda))^{n/2}$, growing from zero, and frequency $\omega_0+n\Lambda\nu+\sigma+\operatorname{Im}\delta\,|x|^{2}$, with $|x|$ the amplitude. So one robust ultrastable branching feedback, built without knowing $\gamma$, $\sigma$ and $\delta$, damps the resonator or makes it a self-oscillator, for every $\gamma$ in a bounded set, including $\gamma=0$. The designer does not know $\gamma$, $\sigma$ and $\delta$, and this affects the following: $\gamma$ moves the switch to $\varepsilon=\gamma/(n\Lambda)$ and, with it, changes the amplitude; $\operatorname{Re}\delta$ also changes the amplitude; $\sigma$ and $\operatorname{Im}\delta$ change the frequency, and, when $\operatorname{Im}\delta\ne0$, $\gamma$ and $\operatorname{Re}\delta$ also change it through the amplitude; $\gamma$ and $\operatorname{Re}\delta$ change the rate of attraction to the cycle. Without the term $-|x|^{2/n}$ and with $\varepsilon<0$, this is the feedback of Proposition~\ref{prop:robust} with $\lambda_0=\varepsilon+i\nu$, used above for damping a resonator; the term $-|x|^{2/n}$ and the settings $\varepsilon>\gamma/(n\Lambda)$ add the appearance of the self-oscillation and its persistence. This is the price of robustness: the cycle is born at $\varepsilon=\gamma/(n\Lambda)$, not at $\varepsilon=0$ as for the reference.
+\emph{The rates and the switches.} Since $\Lambda\ge2M$, $|g|\le\rho^{2}/2$. So $\frac{d}{d\tau}\log\rho$ lies between $\varepsilon-\varepsilon_*-\frac32\rho^{2}$ and $\varepsilon-\varepsilon_*-\frac12\rho^{2}$. For $\varepsilon<\varepsilon_*$ this gives $\frac{d}{dt}\log|x|\le n\Lambda(\varepsilon-\varepsilon_*)$. For $\varepsilon>\varepsilon_*$ it gives $\frac{d}{dt}\log|x|\ge n\Lambda(\varepsilon-\varepsilon_*)/4$ while $\rho^{2}\le(\varepsilon-\varepsilon_*)/2$. It also puts the cycle in $\frac23(\varepsilon-\varepsilon_*)\le\rho^{2}\le2(\varepsilon-\varepsilon_*)$, which gives $R_1$ and $R_2$. On this annulus the divergence is at most $-\frac23(\varepsilon-\varepsilon_*)$. So the Floquet exponent of the cycle is at most $-\frac23\Lambda(\varepsilon-\varepsilon_*)$ in the time $t$. All these rates are at least $C_0|\varepsilon-\varepsilon_*|$ with $C_0=\Lambda/6$. Finally, $\frac{d}{dt}\arg x$ lies between $n\Lambda\nu-L>0$ and $n\Lambda\nu+L$. So the fixed ray is crossed, and the branch switched, at most $N=\lceil1+(n\Lambda\nu+L)/(2\pi)\rceil$ times in every time interval of length $1$.
+
+\emph{The price of robustness.} The onset $\varepsilon_*$ depends on the plant. For $A=-\gamma$, a feedback built on a coupling manifold invariant for that plant gives $\varepsilon_*=0$ (the Proposition below), but that feedback depends on $\gamma$.
+
+\begin{proposition}[ultrastable Andronov--Hopf bifurcation]\label{prop:hopf-ultra}
+Let the plants be
+\[
+  \dot x=u^{n}+xA(x,\bar x,c)+\bar xB(x,\bar x,c),\qquad c\in K,
+\]
+where $A$ and $B$ are convergent power series and $|A|+|B|\le L$ for $|x|\le1$, $c\in K$. Let $\nu>0$, $\Lambda\ge2L/(n\nu)$ and $|\varepsilon|\le1/4$. For each $c$ take the reference $\dot z=\Lambda\bigl((\varepsilon+i\nu)z-|z|^{2}z\bigr)$, the coupling manifold $x=z^{n}$ and the coupling $u=z\,\beta(z^{n},c)^{1/n}$, where
+\[
+  \beta(x,c)=n\Lambda\bigl(\varepsilon+i\nu-|x|^{2/n}\bigr)-A(x,\bar x,c)-B(x,\bar x,c)\,\bar x/x
+\]
+and the root is the principal one. As a feedback, $u(x,j)=\omega^{\,j}x^{1/n}\beta(x,c)^{1/n}$, with the cut and the switching rule of Theorem~\ref{thm:stab}. Then for every $c$ the closed loop is
+\[
+  \dot x=n\Lambda\bigl(\varepsilon+i\nu-|x|^{2/n}\bigr)x,
+\]
+the image of the reference under $x=z^{n}$. The references, couplings and coupling manifolds solve the ultrastability problem (Definition~\ref{def:ultra}) on $\mathcal V$: $|x|<1$, with $D=\{|z|\le1\}$, $K=n$, $B_1^{\,n}=n\Lambda(5/4+\nu)+L$ and $N=\lceil1+n\Lambda\nu/(2\pi)\rceil$. For every plant: for $\varepsilon<0$ the origin attracts at rate $n\Lambda|\varepsilon|$; for $\varepsilon>0$ the origin repels and the cycle $|x|=\varepsilon^{n/2}$ attracts every solution with $0<|x_0|<1$; the onset is at $\varepsilon=0$.
+\end{proposition}
+
+\begin{proof}
+The imaginary part of $\beta$ is at least $n\Lambda\nu-L\ge n\Lambda\nu/2>0$. So $\beta$ stays in the upper half-plane, and its principal root is continuous. For $x\ne0$, $u^{n}=x\beta=n\Lambda(\varepsilon+i\nu-|x|^{2/n})x-xA-\bar xB$, so $u^{n}+xA+\bar xB=n\Lambda(\varepsilon+i\nu-|x|^{2/n})x$; at $x=0$, $u=0$. If $x=z^{n}$, then $\dot x=nz^{n-1}\dot z=n\Lambda(\varepsilon+i\nu-|z|^{2})z^{n}$, which is the closed loop. For $|\varepsilon|\le1/4$, on $|z|=1$ we have $\frac{d}{dt}|z|^{2}=2\Lambda(\varepsilon-1)<0$, so the reference keeps $D$. Every $|x_0|<1$ has a lift with $|z_0|<1$; $z^{n}$ is $n$-Lipschitz on $D$; $|u|^{n}=|x||\beta|\le n\Lambda(5/4+\nu)+L$; and $\frac{d}{dt}\arg x=n\Lambda\nu$ exactly, so the ray is crossed at most $N$ times in every time interval of length $1$. With $\rho=|x|^{1/n}$, $\frac{d}{dt}\log\rho=\Lambda(\varepsilon-\rho^{2})$, which gives the rates and the cycle $\rho^{2}=\varepsilon$.
+\end{proof}
+
+Unlike the robust feedback of item~(5), this feedback depends on the plant through $A$ and $B$; in return the onset is at $\varepsilon=0$ for every plant, and $B\ne0$ is allowed.
+
+\emph{Not covered.} For the robust feedback: plants with $B\ne0$; plants with $A$ depending on $u$, for example with the parallel-plate term; terms without $x$ other than $u^{n}$. These cases will be considered in future work.
+
+\emph{Practical interpretation.} For the resonator of \S\ref{sec:three} with natural damping $\gamma$, detuning $\sigma$ and a Duffing term, $\dot x=u^{n}+(-\gamma+i\sigma)x+\delta|x|^{2}x$, the variable $x$ is the complex amplitude of the oscillation, and $\varepsilon$ is a setting of the controller.
+
+The feedback feeds the oscillation with strength $n\Lambda\varepsilon$ and feeds it less as $|x|$ grows (the term $-n\Lambda|x|^{2/n}$); the damping $\gamma$ drains it. If $n\Lambda\varepsilon<\gamma$, the oscillation dies out. If $n\Lambda\varepsilon>\gamma$, it grows until feeding and damping balance, and the resonator oscillates by itself, with amplitude about $(\varepsilon-\gamma/(n\Lambda))^{n/2}$, growing from zero, and frequency $\omega_0+n\Lambda\nu+\sigma+\operatorname{Im}\delta\,|x|^{2}$, with $|x|$ the amplitude.
+
+So one robust ultrastable branching feedback, built without knowing $\gamma$, $\sigma$ and $\delta$, damps the resonator or makes it a self-oscillator, for every $\gamma$ in a bounded set, including $\gamma=0$.
+
+The designer does not know $\gamma$, $\sigma$ and $\delta$, and this affects the following:
+\begin{itemize}
+\item $\gamma$ moves the switch to $\varepsilon=\gamma/(n\Lambda)$ and, with it, changes the amplitude;
+\item $\operatorname{Re}\delta$ also changes the amplitude;
+\item $\sigma$ and $\operatorname{Im}\delta$ change the frequency, and, when $\operatorname{Im}\delta\ne0$, $\gamma$ and $\operatorname{Re}\delta$ also change it through the amplitude;
+\item $\gamma$ and $\operatorname{Re}\delta$ change the rate of attraction to the cycle.
+\end{itemize}
+Without the term $-|x|^{2/n}$ and with $\varepsilon<0$, this is the feedback of Proposition~\ref{prop:robust} with $\lambda_0=\varepsilon+i\nu$, used above for damping a resonator. The term $-|x|^{2/n}$ and the settings $\varepsilon>\gamma/(n\Lambda)$ add the appearance of the self-oscillation and its persistence. This is the price of robustness: the cycle is born at $\varepsilon=\gamma/(n\Lambda)$, not at $\varepsilon=0$ as for the reference.
 \end{enumerate}
 
 
@@ -680,8 +817,10 @@ The nonholonomic (Brockett) integrator \cite{Brockett1983}
 $x\in\R^{3}$, $u\in\R^{2}$, fails Brockett's necessary condition at the origin:
 no continuous $s(x)$ stabilises it. The unicycle is brought to this form by a feedback transformation \cite{SontagSurvey1999}, so the syntheses below apply to it. It is the corank-one instance of the present
 framework --- $(x_1,x_2)$ controllable, $x_3$ uncontrollable with the bracket
-entry $x_1u_2-x_2u_1$ (no linear part). A weighted blow-up resolves the plant into a
-family of surfaces indexed by a cylinder (\S\ref{sec:horns} below). In \S\ref{sec:entry} below
+entry $x_1u_2-x_2u_1$ (no linear part).
+
+A weighted blow-up resolves the plant into a
+family of surfaces indexed by a cylinder (\S\ref{sec:horns}). In \S\ref{sec:entry}
 we use the construction of \S\ref{sec:product}, on each side of the surface where the reference switches, with the
 blow-up $Z$ as the reference state space and the blow-down
 \[
@@ -693,22 +832,31 @@ The feedback is
 \[
   s(x)=h\bigl(\beta^{-1}(x)\bigr).
 \]
+
 Off the $x_3$-axis $\beta^{-1}(x)$ is one point, and $s(x)$ is one vector. Over a point
 $(0,0,x_3)$, $x_3\ne0$, of the axis, $\beta^{-1}$ is the circle $\{r=0,\ \theta\in S^{1}\}$ (in the coordinates
 $(r,\theta,x_3)$ of \eqref{eq:chart2}), so there the branches of $s$ form a circle: at the point
 $\theta$ the value of $h$ is $\eta|x_3|^{1/2}(\cos\theta,\sin\theta)$, a push away from the axis in the
 direction $\theta$, with $\eta>0$ a constant chosen in \S\ref{sec:entry}. Choosing the branch means
 choosing $\theta$, that is, the point of the circle from which the reference trajectory starts.
-Every choice is admissible, and once it is made the motion is unique. Let $r^{2}=x_1^{2}+x_2^{2}$; we call
+Every choice is admissible, and once it is made the motion is unique.
+
+Let $r^{2}=x_1^{2}+x_2^{2}$; we call
 $\nu=(r^{4}+x_3^{2})^{1/4}$ the \emph{size} of the state. The control satisfies $|u|\le c\,\nu$ for a constant $c$, and the half-attraction time, the
-time after which $\nu$ has halved, does not depend on the initial point. The feedback $s$ does not depend on time. Over the nonzero points of the $x_3$-axis $\pi(\Sig)$, where $\beta$ is not a
+time after which $\nu$ has halved, does not depend on the initial point.
+
+The feedback $s$ does not depend on time. Over the nonzero points of the $x_3$-axis $\pi(\Sig)$, where $\beta$ is not a
 diffeomorphism, it has a circle of branches. It jumps only on the surface $|x_3|=\rho_0(x_1^{2}+x_2^{2})$,
 where the reference changes and whose position $\rho_0>0$ the designer chooses. This jump could be removed
 (Remark at the end of Appendix~\ref{app:brockett}), but we keep it: it gives the exact duration of the outward motion,
-and in \S\ref{sec:leaf} the position $\rho_0$ of this surface is how the designer chooses the frequency. Write $\rho=x_3/r^{2}$; the surfaces $\{x_3=\rho r^{2}\}$, $\rho$ constant,
-are paraboloids. \S\ref{sec:leaf} below keeps each of them invariant instead; the half-attraction time on
+and in \S\ref{sec:leaf} the position $\rho_0$ of this surface is how the designer chooses the frequency.
+
+Write $\rho=x_3/r^{2}$; the surfaces $\{x_3=\rho r^{2}\}$, $\rho$ constant,
+are paraboloids. \S\ref{sec:leaf} keeps each of them invariant instead; the half-attraction time on
 the paraboloid labelled $\rho$ then grows like $(2\ln2/c)\,|\rho|^{1/2}$, which tends to $\infty$ as the
-axis is approached, $\rho\to\pm\infty$. Finally, \S\ref{sec:rotating} below makes the feedback depend on
+axis is approached, $\rho\to\pm\infty$.
+
+Finally, \S\ref{sec:rotating} makes the feedback depend on
 time and obtains a law $u(x,t)$ that is continuous everywhere.
 
 \subsection{The blow-up and the family of horns}\label{sec:horns}
@@ -796,8 +944,13 @@ $\rho\to\pm\infty$. (b) After the blow-up: in the formula \eqref{eq:chart1} the 
 is the cylinder with coordinates $(\theta,\rho)$, and the whole cylinder maps to the original origin; each
 horn is attached along one circle $\rho=\mathrm{const}$ (the circle $\rho=0$ along the plane $x_3=0$). The two end
 circles $\rho=\pm\infty$ are not part of the cylinder. The circles over the points $(0,0,x_3)$ of the $x_3$-axis lie in
-the chart \eqref{eq:chart2}, not on the cylinder; as $x_3\to0^{\pm}$ they approach the ends $\rho=\pm\infty$. The synthesis of \S\ref{sec:entry} below drives $\rho$ from the two
+the chart \eqref{eq:chart2}, not on the cylinder; as $x_3\to0^{\pm}$ they approach the ends $\rho=\pm\infty$. The synthesis of \S\ref{sec:entry} drives $\rho$ from the two
 ends towards the circle $\rho=0$.}\label{fig:horns}
+\end{figure}
+
+\begin{figure}[ht]\centering
+\includegraphics[width=0.62\textwidth]{figure_blowup.png}
+\caption{The blow-up $Z$ of the Brockett integrator, drawn in $x$-space. Red: the cylinder $\{r=0\}$ of Figure~\ref{fig:horns}(b), drawn as a band around the origin; the whole band maps to the origin. Each horn $H_\rho$ ends on its own circle of the band; the horns $\rho=0.7$, $0$, $-0.7$ are shown with their circles. Blue: two tubes along the $x_3$-axis; each circle of a tube is the circle of branches over one point $(0,0,x_3)$ of the axis. Black: the two circles $\rho=\pm\infty$, where the band meets the tubes.}\label{fig:blowup}
 \end{figure}
 
 \emph{Area is the only way to move $x_3$.} Writing $x_1=r\cos\theta$, $x_2=r\sin\theta$,
@@ -842,7 +995,7 @@ This bound decides how far from the axis the state must go before it can descend
 Near the axis, moving outward is cheap and moving the height is expensive, so the state first moves
 away from the axis and only then descends (Appendix~\ref{app:brockett}).
 
-\emph{The reference.} Let $Z$ denote the blow-up of \S\ref{sec:horns} above, in the two
+\emph{The reference.} Let $Z$ denote the blow-up of \S\ref{sec:horns}, in the two
 formulas \eqref{eq:chart1} and \eqref{eq:chart2}, and let $\beta\colon Z\to\R^{3}$ be the
 blow-down. Here the reference, the coupling $h$ and the map $F=\beta$ are defined globally, on all of $Z$,
 not only near one point as in the Definition of \S\ref{sec:product}. The reference $\dot z$ on $Z$ is as follows, with constants
@@ -974,15 +1127,15 @@ Then:
 
 The horns have played no part in this beyond labelling the two regimes; they are
 crossed, not preserved. What preserving them would give instead is recorded in
-\S\ref{sec:leaf} below.
+\S\ref{sec:leaf}.
 
 
 The switching surface $|\rho|=\rho_0$ can be removed (Appendix~\ref{app:brockett}).
 
 \subsection{The horns as invariant leaves}\label{sec:leaf}
-The synthesis of \S\ref{sec:entry} above crosses the horns. Here they are kept invariant instead, as the
+The synthesis of \S\ref{sec:entry} crosses the horns. Here they are kept invariant instead, as the
 blow-up suggests: one reference for each horn. This gives two things the synthesis of \S\ref{sec:entry}
-does not have, a rotation at a prescribed frequency and the clock used in \S\ref{sec:rotating} below.
+does not have, a rotation at a prescribed frequency and the clock used in \S\ref{sec:rotating}.
 
 A reference preserves every horn exactly when $\dot\rho=0$, that is by \eqref{eq:shape-AB} when
 $B=2\rho A(1+\rho^{2})^{-1/4}$. Write $\dot r=-\frac12k\,r$ and $\dot x_3=-k\,x_3$, which is this condition
@@ -1038,25 +1191,10 @@ continuous trajectory cannot jump over, and never returns to $0$. The law is
 \]
 where the branch $\theta\in S^{1}$ is used over an axis point and $\sigma=\operatorname{sign}x_3$, with the two
 branches $\sigma=\pm1$ if $x_3=0$. Both are chosen at $t_0$ and never switched, $\theta(t+0)=\theta(t-0)$,
-$\sigma(t+0)=\sigma(t-0)$: a trajectory starting at a nonzero point of the axis leaves it at once and does not return, and $x_3\neq0$
-with the sign $\sigma$ for $t>t_0$. So $m$ is the only switch. The horn law cannot be used on the surface
-$|x_3|=\rho_0r^{2}$ alone. The outward motion and the rotation both push the state onto this surface from its two
-sides. An exact solution could follow the horn law on the surface, but with any error in measuring the state or
-in the switching, and for solutions in Filippov's sense, a law depending on $x$ alone would alternate between
-the two near the surface (jitter), and the state would slide along the surface under a combination of the two motions. Both increase $\nu$, since
-$\frac{d}{dt}\nu^{4}=4r^{3}\dot r+2x_3\dot x_3$ is positive for each of them, so the sliding state moves away from
-the origin. The mode prevents this. It is not necessary for that: since the law for
-$m=1$ makes the horn $\rho=\sigma\rho_0$ attracting (see below), it could be used without a mode on a layer
-$\rho_0-\delta\le|\rho|\le\rho_0+\delta$, whose edges the laws on both sides cross only inwards; with errors of size $E$ in the measured $\rho$ this
-needs $\gamma\delta>(k+\gamma)E$. The mode is
-nevertheless beneficial: the law changes only once, at the first arrival, and after that a disturbance never
-returns the state to the outward motion or the rotation. With errors in measuring the state, the switch takes
-place when the measured state first reaches or crosses the horn, and this ends the approach. Later crossings of
-the horn caused by errors do not change the law: the law for $m=1$ is the same on both sides of the horn,
-depends continuously on $x$ there and pulls the state back towards the horn, so the state only wobbles around
-it. Without the mode, on a layer, errors near its edges could switch the law back and forth during the entry. The mode, like the branch, is a part of the state of the closed loop and is constant between
-switches (\S\ref{sec:core}); with it there is no jitter, since after the switch the law for $m=1$ is the only one
-in use and the switching law no longer depends on $x$.
+$\sigma(t+0)=\sigma(t-0)$. A trajectory starting at a nonzero point of the axis leaves it at once and does not return, and $x_3\neq0$
+with the sign $\sigma$ for $t>t_0$. So the branches are never switched, and the only switch is that of the mode $m$.
+
+The mode becomes $1$ when the measured state first reaches the horn $|x_3|=\rho_0r^{2}$, and after that only the horn law ($m=1$) is used. Errors that later carry the state across the horn do not change the mode: the horn law is the same on both sides of the horn and pulls the state back towards it. Without the mode, errors would make the control alternate between the outward motion and the rotation near the horn, and the state could slide along it away from the origin. The mode, like the branch, is a part of the state of the closed loop and is constant between switches (\S\ref{sec:core}).
 
 For $m=1$ one has $\dot r=-\frac12k\,r$ and $\dot\rho=-\gamma(\rho-\sigma\rho_0)$. Without errors the state stays
 on the horn $\rho=\sigma\rho_0$, where $q=\rho$, and moves there as in \eqref{eq:leafclock} with $k=k(\rho_0)$. The
@@ -1080,7 +1218,7 @@ velocity
 \end{equation}
 which increases from $0$ to $\infty$ with $\rho_0$: every frequency is available, and the designer chooses
 it through $\rho_0$. In \S\ref{sec:entry}, by contrast, $\rho\to0$ and the rotation dies out. The result is a
-decaying spiral of prescribed frequency; \S\ref{sec:frequency} below obtains a periodic motion of
+decaying spiral of prescribed frequency; \S\ref{sec:frequency} obtains a periodic motion of
 prescribed frequency by the same mechanism.
 
 \subsection{A continuous time-periodic law from a rotating branch}\label{sec:rotating}
@@ -1090,26 +1228,32 @@ time-dependent one is not subject to that condition. Here the branch used on the
 the upper and the lower half-axis, and inside a thin tube around the axis the branches are merged into one
 value. The result
 is a continuous time-periodic stabiliser. Outside the tube it is the smooth field \eqref{eq:smoothAB}, so
-\S\ref{sec:entry}--\S\ref{sec:leaf} above supply most of the proof; only the analysis near the axis is new.
+\S\ref{sec:entry}--\S\ref{sec:leaf} supply most of the proof; only the analysis near the axis is new.
 
 \emph{The sphere of shapes.} The dilations $\delta_\lambda(x_1,x_2,x_3)=(\lambda x_1,\lambda x_2,\lambda^{2}x_3)$,
 $\lambda>0$, carry each state $x\neq0$ to exactly one point of the surface $S=\{\nu=1\}$, its \emph{shape}. The
 surface $S$ is a sphere with the poles $(0,0,\pm1)$ on the axis and the equator in the plane $x_3=0$. The laws
 of this section are homogeneous, $u(\delta_\lambda x)=\lambda u(x)$, so the closed loop commutes with the
-dilations and moves the shapes along a vector field on $S$, the \emph{shape field}. At a zero of the shape
+dilations and moves the shapes along a vector field on $S$, the \emph{shape field}.
+
+At a zero of the shape
 field off the equator a state keeps $\theta$ and $\rho$; since $\dot x_3=r^{2}\dot\theta$, it then keeps $x_3$ and
 $r$, so it does not move. Take a continuous static law that equals \eqref{eq:smoothAB} away from the axis. Its
 shape field is continuous on a cap $\{\rho\ge\rho_c\}$ around the north pole and, by $\dot\rho<0$ for
 \eqref{eq:smoothAB}, points out of the cap on its boundary circle. A vector field on a closed disk that points
 outward on the boundary vanishes inside, so the law has a state that does not move, as Brockett's condition
-requires. The blow-up replaces each pole by the circle of branches and turns $S$ into a cylinder; on the
+requires.
+
+The blow-up replaces each pole by the circle of branches and turns $S$ into a cylinder; on the
 cylinder the shape field of \eqref{eq:smoothAB} vanishes only on the equator, where the states shrink in the
-plane $x_3=0$. This is why the branching feedback has no state that does not move. The law below is
+plane $x_3=0$. This is why the branching feedback has no state that does not move.
+
+The law below is
 continuous, so the zero in the cap is there again, but now as a zero of the shape field in the frame that
 rotates with the branch: a state there keeps its shape and turns with the branch, $\dot\theta=\omega$, and
-\eqref{eq:leafclock} gives $\dot\nu/\nu=\omega/(2\rho)$. Turning against the sign of $x_3$ makes it shrink. The
-chart $y$ in the proof (Appendix~\ref{app:rotating} below) is the chart of $S$ at the north pole in the rotating
-frame; step (b) of the proof gives the boundary circle of the cap, step (c) treats the zeros inside it, and the
+\eqref{eq:leafclock} gives $\dot\nu/\nu=\omega/(2\rho)$. Turning against the sign of $x_3$ makes it shrink.
+
+The variable $y$ in the proof (Appendix~\ref{app:rotating}) gives local coordinates on $S$ near the north pole, in the frame that rotates with the branch; step (b) of the proof gives the boundary circle of the cap, step (c) treats the zeros inside it, and the
 Remark after the Theorem below is the case of the wrong direction of rotation.
 
 \emph{The law.} Let $A(\rho)$, $B(\rho)$ be the pair \eqref{eq:smoothAB}, with $\eta,a>0$ and $b>2a$. Put
@@ -1140,7 +1284,7 @@ For all $\eta,a>0$, $b>2a$, $m_1\in(0,1)$ and $\Omega>0$, the closed loop \eqref
 $t_0$ and $x(t_0)$, such that $\nu(x(t))\le Ke^{-\mu(t-t_0)}\nu(x(t_0))$ for $t\ge t_0$.
 \end{theorem}
 
-The proof is in Appendix~\ref{app:rotating} below.
+The proof is in Appendix~\ref{app:rotating}.
 
 \begin{remark}[the opposite rotation is necessary]
 If both half-axes rotate the same way, $\varphi(t)=\omega t+\varphi_0$, the circle of step (b) of the proof in Appendix~\ref{app:rotating} is unchanged, since
@@ -1168,10 +1312,10 @@ feedback an attracting cycle on which $x_<$ moves at a prescribed
 angular velocity. Three frequencies must be kept apart. The reference cycle has angular frequency
 $\omega$. The coupling manifold is $x_<=z^{2}$, so $x_<=z^{2}$ moves at
 angular velocity $2\omega$ (at $-2\omega$ for $x_<=\bar z^{2}$). The whole closed-loop orbit, control
-included, has period $2\pi/\omega$. The Theorem of \S\ref{sec:general-freq} below assigns the angular
+included, has period $2\pi/\omega$. The Theorem of \S\ref{sec:general-freq} assigns the angular
 velocity $\pm2\omega$ of $x_<$, for every $\omega>0$ except $2\omega=\omega_0$ in
 the rotation $+2$, when the quadratic part $Q$ of the control has no folds.
-\S\ref{sec:reachable} below records what a \emph{linear} coupling gives at second order, and the Theorems of \S\ref{sec:friction} and \S\ref{sec:friction-full} below show that a
+\S\ref{sec:reachable} records what a \emph{linear} coupling gives at second order, and the Theorems of \S\ref{sec:friction} and \S\ref{sec:friction-full} show that a
 linear coupling with a cubic friction term realises every frequency that passes that test, whether or not $Q$ has
 folds, for the plane system and for the full plant, up to a few resonances.
 
@@ -1240,7 +1384,7 @@ $x=F(z)=\sum_{m+n\ge2}c_{mn}z^{m}\bar z^{\,n}$ is solved order by order; at seco
   c_{11}=\frac{d_{11}}{2\varepsilon-i\omega_0},\qquad
   c_{02}=\frac{d_{02}}{2\varepsilon-i(2\omega+\omega_0)},
 \end{equation}
-and \S\ref{sec:reachable} below uses their limits at $\varepsilon=0$,
+and \S\ref{sec:reachable} uses their limits at $\varepsilon=0$,
 \begin{equation}\label{eq:c-zero}
   c_{20}=\frac{d_{20}}{i(2\omega-\omega_0)},\qquad
   c_{11}=\frac{i\,d_{11}}{\omega_0},\qquad
@@ -1252,7 +1396,7 @@ which require $2\omega\neq\omega_0$ and $\omega_0>0$.
 The order-by-order solution is formal: the graph it defines at the origin need not extend to
 the reference cycle. Take $\dot x=i\omega_0x+u^{2}$ and $u=z$, with $\omega_0>0$,
 $\omega_0/\omega\notin\mathbb N$ and $\delta:=2\omega-\omega_0\neq0$. Then there is no continuous invariant
-graph $x=F(z)$ with $F(0)=0$ over a disc containing the reference cycle (Appendix~\ref{app:no-graph} below).
+graph $x=F(z)$ with $F(0)=0$ over a disc containing the reference cycle (Appendix~\ref{app:no-graph}).
 The reason is seen in the product system $(z,x)\in\C^{2}$. Over the reference cycle $\{|z|^{2}=\varepsilon\}$ it
 has the closed orbit $\Gamma_0$, the periodic solution $x=(\varepsilon/i\delta)e^{2i\omega t}$, surrounded by
 nested invariant tori, none of which attracts. The trajectory leaving the origin does not arrive on
@@ -1262,17 +1406,17 @@ $1/\varepsilon$ and invisible at every finite order. The same holds for linear c
 
 The tori exist because the critical mode of the plant has no friction: the term $i\omega_0x$ only rotates, and a
 coupling that depends on $z$ alone adds none. A coupling that also depends on $x$ can supply it. Two such
-constructions follow. In \S\ref{sec:general-freq} below the graph is prescribed and the coupling is solved for
+constructions follow. In \S\ref{sec:general-freq} the graph is prescribed and the coupling is solved for
 pointwise; the closed loop $\dot x_<=[2(\varepsilon-|x_<|)+2i\omega]x_<$ has the friction towards the circle built in. In
-\S\ref{sec:friction} below the linear coupling is kept and a cubic term multiplying $x$ is added; it turns the
+\S\ref{sec:friction} the linear coupling is kept and a cubic term multiplying $x$ is added; it turns the
 family of tori into the basin of one attracting cycle.
 \end{remark}
 
 \subsection{The second-order test for a linear coupling}\label{sec:reachable}
 This subsection asks at which frequencies the quadratic part of the formal graph of a linear
-coupling is a nondegenerate double point. By the second Remark of \S\ref{sec:critical-pair} above this is
+coupling is a nondegenerate double point. By the second Remark of \S\ref{sec:critical-pair} this is
 a test on second-order data, not the existence of a synthesis; the existence theorems are in
-\S\ref{sec:general-freq} and \S\ref{sec:friction} below. Throughout, $\omega_0>0$ and the coefficients are those of
+\S\ref{sec:general-freq} and \S\ref{sec:friction}. Throughout, $\omega_0>0$ and the coefficients are those of
 \eqref{eq:c-zero}.
 
 Let $F_2(z)=c_{20}z^{2}+c_{11}z\bar z+c_{02}\bar z^{2}$. Its branch point at $z=0$ is
@@ -1294,13 +1438,16 @@ $-2$, and reduces to the simpler $|c_{20}|>|c_{02}|$ when $c_{11}=0$). We call s
 
 \begin{remark}[three outcomes at any order of approximation]
 At any order of Taylor approximation of the plant, a system falls into one of three classes:
-those for which qualitative-behaviour branching control can already be built from the data
-available at that order; those for which it can already be shown impossible at that order (by
-some genuine obstruction; for instance, for a real positive-definite pair
+\begin{itemize}
+\item those for which qualitative-behaviour branching control can already be built from the data
+available at that order;
+\item those for which it can already be shown impossible at that order, by some genuine obstruction. For instance, at second order the stabilisation problem is impossible when $\Delta>0$ (Theorem~\ref{thm:dichotomy}): no control with $|u|\le c$ stabilises the origin. Similarly, for a real positive-definite pair
 $Q_1(u_1,u_2),Q_2(u_1,u_2)$ (or in complex notation, $Q(u)$), no circular cycle at any frequency
-other than $\omega_0$ can be built this way --- not pursued further here); and a
-remaining border class, where the data at that order decides nothing either way, and only a
-higher-order approximation could. \eqref{eq:reach-crit} is a test at second order: if it holds,
+other than $\omega_0$ can be built this way: on a cycle $x=\varepsilon e^{i\omega t}$ the control term $Q(u)$ would have to equal $i(\omega-\omega_0)\varepsilon e^{i\omega t}$, which goes around $0$, while $Q(u)$ stays in the closed first quadrant;
+\item a remaining border class, where the data at that order are not decisive enough, and only a
+higher-order approximation could decide; for stabilisation at second order this is $\Delta=0$.
+\end{itemize}
+The inequality $|c_{20}|^{2}-|c_{02}|^{2}>|A|$ of \eqref{eq:reach-crit} is a test at second order: if it holds,
 $F_2$ is a branched double cover of a neighbourhood of $x=0$.
 \end{remark}
 
@@ -1336,9 +1483,9 @@ every frequency but the resonance is reachable at second order,
   \Omega=\R_{>0}\setminus\{\tfrac12\},
 \end{equation}
 with one exception. When $|G|=|K|$ the ellipse degenerates to the segment joining its foci
-$\pm2\sqrt{GK}$, and at these two foci themselves $\Omega$ is only the floor \eqref{eq:floor} below
+$\pm2\sqrt{GK}$, and at these two foci themselves $\Omega$ is only the floor \eqref{eq:floor}
 (example: $G=K=1$, $H=-2$, that is, $Q(u)=-4(\operatorname{Im}u)^{2}$). Everywhere else on the closed
-ellipse there is no ceiling, meaning the ceiling $U$ of \eqref{eq:ceiling-U} below is $+\infty$.
+ellipse there is no ceiling, meaning the ceiling $U$ of \eqref{eq:ceiling-U} is $+\infty$.
 Strictly inside the ellipse there is moreover a linear coupling with $d_{11}=0$ and
 $|d_{02}|<|d_{20}|$; outside it no linear coupling has $d_{11}=0$ and $|d_{20}|\neq|d_{02}|$.
 
@@ -1370,14 +1517,14 @@ approaching the ellipse from outside, independently of direction, at every point
 other than these two ends: there is no ceiling on the ellipse itself, exactly as inside it, apart
 from the exception noted above.
 
-The proof is in Appendix~\ref{app:reach} below.
+The proof is in Appendix~\ref{app:reach}.
 
-Strictly inside the ellipse the Theorem of \S\ref{sec:general-freq} below realises every frequency
+Strictly inside the ellipse the Theorem of \S\ref{sec:general-freq} realises every frequency
 with both rotations by a nonlinear coupling, except $2\omega=\omega_0$ in rotation $+2$. On and outside the ellipse the Jacobian of $Q$ vanishes on some line through $0$
-(folds in general, degenerate critical points in special cases) and that Theorem does not apply; there the Theorem of \S\ref{sec:friction} below realises every frequency of $\Omega$, except
+(folds in general, degenerate critical points in special cases) and that Theorem does not apply; there the Theorem of \S\ref{sec:friction} realises every frequency of $\Omega$, except
 $\omega/\omega_0\in\{\frac14,\frac12\}$, by a linear coupling with a cubic friction term.
 So, for the plane system, $\Omega$ is the set of realised frequencies up to these resonances. The three
-cases --- inside, on and outside the ellipse --- are stated together in the Corollary of \S\ref{sec:friction-full} below,
+cases --- inside, on and outside the ellipse --- are stated together in the Corollary of \S\ref{sec:friction-full},
 where the Theorem of \S\ref{sec:friction} is also extended to the full plant.
 
 \subsection{Prescribed frequency across uncontrollability}\label{sec:general-freq}
@@ -1415,7 +1562,7 @@ Under \textup{(H3)}, $Q$ maps $\C\setminus\{0\}$ onto $\C\setminus\{0\}$, every 
 the two preimages $\pm u$, the curve $\theta\mapsto Q(e^{i\theta})$ winds twice around $0$ (degree $\pm2$), and
 $\|dQ(u)^{-1}\|\le C_Q/|u|$ for a constant $C_Q$.
 \end{lemma}
-The proof is in Appendix~\ref{app:double} below.
+The proof is in Appendix~\ref{app:double}.
 
 Close the complement as before: $u=L\cdot x_>+p$ with $p\in\ker C_>\cong\C$ and the gain $L\colon
 x_>\to W$, $W$ a complement to $\ker C_>$ in $\R^{\ell}$, chosen with $A_L:=A_>+C_>L$ Hurwitz
@@ -1476,7 +1623,7 @@ The region $\mathcal N_\varepsilon$ is a positively invariant cone, not a neighb
 $|x_>|>K_0|x_<|$, in particular those with $x_<=0\neq x_>$, are outside it, and the Theorem says nothing about
 them.
 
-The proof is in Appendix~\ref{app:main} below.
+The proof is in Appendix~\ref{app:main}.
 
 No resonance $j\omega=\omega_0$ with $j\neq2$ enters: the coupling solves the pointwise equation
 \eqref{eq:pointwise}, not a sequence of homological equations. The excluded value $\delta=0$ is the
@@ -1493,8 +1640,8 @@ encircles the branch point, meets $\Gamma$ once per revolution of $x_<$, and the
 changes there. The realised control $u(t)$ is continuous in time and as regular as the branches, since $z(t)$ rotates smoothly.
 
 \subsection{Linear coupling with friction: every frequency that passes the test}\label{sec:friction}
-The test of \S\ref{sec:reachable} above concerns a linear coupling, and by the second Remark of
-\S\ref{sec:critical-pair} above such a coupling leaves the plant's critical mode without friction: over
+The test of \S\ref{sec:reachable} concerns a linear coupling, and by the second Remark of
+\S\ref{sec:critical-pair} such a coupling leaves the plant's critical mode without friction: over
 the reference cycle the product system carries a family of neutral tori, and the graph need not close.
 A cubic term of the coupling that multiplies the plant state supplies the friction. With it, every
 frequency that passes the test is realised, on, inside and outside the ellipse, except at a few resonances. This subsection treats
@@ -1515,8 +1662,8 @@ and its \emph{friction} is $\kappa:=c\kappa_0+c'\kappa_1$. With the coefficients
 
 \begin{theorem}[prescribed frequency, $H$ on or outside the ellipse: friction]\label{thm:friction}
 This Theorem is the one for $H$ on the ellipse \eqref{eq:ellipse-cond} and for $H$ strictly outside it, where $Q$ has
-folds and the Theorem of \S\ref{sec:general-freq} above does not apply, for the plane system; the full plant is treated in
-\S\ref{sec:friction-full} below. Inside the ellipse it applies as well.
+folds and the Theorem of \S\ref{sec:general-freq} does not apply, for the plane system; the full plant is treated in
+\S\ref{sec:friction-full}. Inside the ellipse it applies as well.
 Consider $\dot x=i\omega_0x+Q(u)$ with $\omega_0>0$. Let $\omega>0$ with $2\omega\neq\omega_0$ and
 $4\omega\neq\omega_0$, let $(b,b')$ reach $\omega$ with rotation $\sigma\in\{+2,-2\}$ \textup{(}\S\ref{sec:reachable}\textup{)},
 and let $c,c'$ satisfy
@@ -1550,7 +1697,7 @@ The hypotheses can always be met when $\omega\in\Omega$, $2\omega\ne\omega_0$ an
 condition on $(b,b')$, and $\kappa_0=2Gb'+H\bar b$ vanishes only on a real subspace of codimension two unless $G=H=0$;
 so $(b,b')$ may be taken with $\kappa_0\ne0$, and then $c'=0$, $c=-3/\kappa_0$ gives $\kappa=-3$ and $c'\lambda_1=0$. For
 $Q(u)=K\bar u^{2}$ the Theorem applies to the control $\bar u$. Together with the classification of $\Omega$ in
-\S\ref{sec:reachable} above: for the plane system, a linear coupling with friction realises
+\S\ref{sec:reachable}: for the plane system, a linear coupling with friction realises
 every frequency of $\Omega$ other than $\omega/\omega_0=\frac14$ and $\frac12$. At these two values the Theorem does not
 apply: a component of the forcing turns at the plant's own frequency $\omega_0$, and its response is limited only
 by the friction, which is of size $\varepsilon$. Whether these two values can be realised by other means is not
@@ -1558,20 +1705,20 @@ decided here; for some plants nothing goes wrong at them (for $Q(u)=u^{2}$ and t
 there is no forcing at the fourth harmonic); at $\omega=\omega_0$ a term $\vartheta^{2}\bar\zeta$ of the normal form below would be resonant, which the choice $c'=0$
 avoids.
 
-The proof is in Appendix~\ref{app:friction} below.
+The proof is in Appendix~\ref{app:friction}.
 
-The two constructions of frequency control differ in what is prescribed. In \S\ref{sec:general-freq} above the
+The two constructions of frequency control differ in what is prescribed. In \S\ref{sec:general-freq} the
 graph is prescribed, $x_<=z^{2}$, and the coupling is solved for pointwise; this needs $Q$ without folds,
 covers the full plant \eqref{eq:split}, and gives the exact circle $|x_<|=\varepsilon$. Here the coupling is prescribed,
 linear plus friction, and the graph is found; this needs only the second-order test, so it reaches the plants
 on and outside the ellipse, and the cycle is a curve close to $\hat F_2(\{|\nu|=\varepsilon\})$. The Theorem above is
 stated for the plane system. For the full plant the terms of $Q(u,x)$ of the form $u\cdot x$ and $u^{3}$ enter
 \eqref{eq:fric-scaled} at order $\sqrt\varepsilon$; a second averaging step then changes the effective friction $\kappa$ by a
-constant and adds the resonances $3\omega=\omega_0$, $\omega=\omega_0$ and $\omega=2\omega_0$. That extension is the subject of \S\ref{sec:friction-full} below.
+constant and adds the resonances $3\omega=\omega_0$, $\omega=\omega_0$ and $\omega=2\omega_0$. That extension is the subject of \S\ref{sec:friction-full}.
 
 
 \subsection{The full plant}\label{sec:friction-full}
-The Theorem of \S\ref{sec:friction} above is stated for the plane system. This subsection extends it to the full
+The Theorem of \S\ref{sec:friction} is stated for the plane system. This subsection extends it to the full
 plant \eqref{eq:split} of any dimension $N$. Two things change. The complement $x_>$ is now present, and the plant
 has its own terms of order two and three in $(u,x)$ beyond $Q(u)$, such as $u\cdot x$ and $u^{3}$. In the scaled
 variables these terms enter at order $\sqrt\varepsilon$, which is larger than the friction; their average vanishes,
@@ -1583,8 +1730,8 @@ The coupling is
 \begin{equation}\label{eq:fric-full}
   u=Lx_>+p,\qquad p=bz+b'\bar z+(cz+c'\bar z)\,x_<\in\ker C_>,
 \end{equation}
-with $L$ as in \S\ref{sec:general-freq} above ($A_L=A_>+C_>L$ Hurwitz), and $\kappa=c\kappa_0+c'\kappa_1$ as in
-\S\ref{sec:friction} above.
+with $L$ as in \S\ref{sec:general-freq} ($A_L=A_>+C_>L$ Hurwitz), and $\kappa=c\kappa_0+c'\kappa_1$ as in
+\S\ref{sec:friction}.
 
 \begin{theorem}[prescribed frequency for the full plant, $H$ on or outside the ellipse]\label{thm:friction-full}
 Assume that the plant \eqref{eq:split} is of class $C^{5}$, \textup{(H1)}, \textup{(H2)}, $\omega_0>0$, and let $\omega>0$ with
@@ -1619,12 +1766,12 @@ then for all small $\varepsilon>0$:
 \end{enumerate}
 \end{theorem}
 
-As in \S\ref{sec:friction} above, $(b,b')$ may be taken with $\kappa_0\ne0$ (for $G=H=0$ after replacing the control in $\ker C_>$ by its conjugate, as there), and then $c'=0$,
+As in \S\ref{sec:friction}, $(b,b')$ may be taken with $\kappa_0\ne0$ (for $G=H=0$ after replacing the control in $\ker C_>$ by its conjugate, as there), and then $c'=0$,
 $c=-(3+\mathrm{Re}\,\kappa_2)/\kappa_0$ meets the condition; so every frequency of $\Omega$ outside the five resonances is
-realised. For the plane system $\kappa_2=0$, $Y_<$ is even, and the Theorem reduces to that of \S\ref{sec:friction} above,
+realised. For the plane system $\kappa_2=0$, $Y_<$ is even, and the Theorem reduces to that of \S\ref{sec:friction},
 with its smaller set of resonances.
 
-The proof is in Appendix~\ref{app:friction-full} below.
+The proof is in Appendix~\ref{app:friction-full}.
 
 \begin{corollary}[inside, on and outside the ellipse]\label{cor:three}
 Let $\omega_0>0$. The angular velocity $2\omega$ \textup{(}rotation $+2$\textup{)} or $-2\omega$ \textup{(}rotation $-2$\textup{)} of
@@ -1654,6 +1801,12 @@ By \S\ref{sec:general-freq}, \textup{(H3)} holds exactly when $H$ is strictly in
 stated resonances.
 \end{proof}
 
+\emph{Ultrastability and robust ultrastability.} Take the family of plants \eqref{eq:split} with the quadratic part $Q(u)$ fixed and the coefficients of order three and higher as parameters, within given bounds. A proof of the following two statements will be considered in future work:
+\begin{itemize}
+\item \emph{ultrastability:} for $H$ strictly inside the ellipse, the feedback of the Theorem of \S\ref{sec:general-freq}, built for each plant, gives every plant the same frequency $\omega$ and the same circle $|x_<|=\varepsilon$, with constants not depending on the plant;
+\item \emph{robust ultrastability:} one controller, the reference \eqref{eq:hopf-ref} with the coupling \eqref{eq:fric-full} and $c$ chosen so that $\mathrm{Re}\,(\kappa+\kappa_2)<-2$ for every plant, gives every plant an attracting cycle of the same frequency $\omega$.
+\end{itemize}
+
 A worked example, the plane system in closed form, is given in Appendix~\ref{sec:h3-example}.
 
 % =====================================================================
@@ -1665,23 +1818,26 @@ Brockett integrator, and with stabilisation methods for an uncontrollable first 
 
 \subsection{Coupling manifold in branching QBC and Lagrangian manifold}\label{sec:bridge}
 The branching QBC construction \cite{Shosh1990} has an analogue in the geometry of optimal control; both are
-instances of the singularities of projections of integral manifolds. In an
+instances of the singularities of projections of integral manifolds.
+
+In an
 optimal-control problem one adjoins to the state a vector of adjoint variables and reads the
 synthesis off a Lagrangian manifold whose projection to state space is singular along its
-caustic \cite{AGV}, the critical value set of that projection; the optimal feedback is multivalued over the
+caustic \cite{AGV}, the critical value set of that projection. The optimal feedback is multivalued over the
 region the manifold covers several times, and the cost selects a branch, switching on the Maxwell
-set, where two branches have equal cost; for the Brockett integrator such syntheses are computed in
-\cite{Zeng2019}. The analogy here is one of roles: the reference variable
+set, where two branches have equal cost. For the Brockett integrator such syntheses are computed in
+\cite{Zeng2019}.
+
+The analogy here is one of roles: the reference variable
 $z$ takes the place of the adjoint variable, the coupling manifold $M=\graph(x=F(z))$ that of the
 Lagrangian manifold, and the ramification locus $\pi(\Sig)$ that of the caustic. No symplectic
-structure is involved, and $M$ is not claimed to be Lagrangian. What generates the manifold differs
---- a cost functional there, the reference dynamics and coupling here --- and here no cost need be
+structure is involved, and $M$ is not claimed to be Lagrangian. What generates the manifold differs: a cost functional there, the reference dynamics and coupling here. Here no cost need be
 prescribed: the singularity of $F$ at the working point is forced by the controllability deficiency (the
-Proposition of \S\ref{sec:graph} above).
+Proposition of \S\ref{sec:graph}).
 
 
 \begin{conjecture}\label{conj:cost}
-For any branching feedback constructed as in \S\ref{sec:core} above there is a cost
+For any branching feedback constructed as in \S\ref{sec:core} there is a cost
 functional whose optimal synthesis carries the same coupling manifold, in the roles described above,
 $M=\graph(x=F(z))$. In each particular case the QBC and optimal-control constructions then read the
 feedback off the same manifold $M$ through the same projection $\pi\colon M\to X$, with the same caustic.
@@ -1695,34 +1851,41 @@ then converge --- is that of the piecewise-smooth laws of Canudas de Wit and S\o
 also the device of Bloch and Drakunov \cite{BlochDrakunov1994}, but the resemblance stops
 there: their surface is a sliding one, reached and then followed, whereas $|\rho|$
 decreases on both sides of $\{|\rho|=\rho_0\}$, which is therefore crossed once and left
-behind. The law of \S\ref{sec:leaf} above that ends on a horn does attach to that horn and
+behind. The law of \S\ref{sec:leaf} that ends on a horn does attach to that horn and
 stay on it, and there the comparison is apt.
 
 Closest to the construction here is Zeng's time-invariant law \cite{Zeng2022}. Its
-discontinuities are confined to the $x_3$-axis; near an axis point its solutions branch out in all
+discontinuities are confined to the $x_3$-axis. Near an axis point its solutions branch out in all
 directions, so that no continuous extension exists, and the law is extended to the axis by
-selecting one branch, $u=(4|x_3|^{1/2},0)$; the closed loop converges uniformly exponentially. The
+selecting one branch, $u=(4|x_3|^{1/2},0)$. The closed loop converges uniformly exponentially. The
 stabilisation result of the Proposition on the estimates is therefore not new. What the present
 construction adds is a law in closed form, with $|u|\le c\nu$ (Zeng's law is defined through the
 solution of a transcendental equation), and the identification of Zeng's branches as the branches of
 the branching feedback: the axis is the ramification locus $\pi(\Sig)$, and the branches over an axis
 point form the circle $\beta^{-1}(x)$.
- The size $\nu=(r^{4}+x_3^{2})^{1/4}$ is a homogeneous norm for the weighted dilation
+
+The size $\nu=(r^{4}+x_3^{2})^{1/4}$ is a homogeneous norm for the weighted dilation
 $(x_1,x_2,x_3)\mapsto(\lambda x_1,\lambda x_2,\lambda^{2}x_3)$, under which
-\eqref{eq:brockett} is invariant together with $u\mapsto\lambda u$; the homogeneity so
+\eqref{eq:brockett} is invariant together with $u\mapsto\lambda u$. The homogeneity so
 introduced for stabilisation is that of Hermes
 \cite{Hermes1991} and Kawski \cite{Kawski1990} (for a recent account see \cite{Polyakov2020}), and conclusion (iv) of the Proposition on the estimates in
-\S\ref{sec:entry} above is the $\rho$-exponential stability of M'Closkey and Murray
-\cite{MCloskeyMurray1997}. A different route past Brockett's obstruction is Coron's
-theorem \cite{Coron1992} (see also \cite{Coron2007} and the references therein), which
+\S\ref{sec:entry} is the $\rho$-exponential stability of M'Closkey and Murray
+\cite{MCloskeyMurray1997}.
+
+Another way around Brockett's obstruction is to let the feedback depend on time. Coron's
+theorem \cite{Coron1992} (see also \cite{Coron2007} and the references therein)
 supplies a feedback $u(x,t)$, periodic in $t$, bounded and continuous on a whole
 neighbourhood of the origin, and driven by a single clock common to all initial conditions.
 Homogeneous time-varying stabilisers of this kind are constructed for the unicycle and the slider in
 \cite{dAndreaNovelCoronPerruquetti2020}, and time-varying stabilisers built from oscillating inputs,
-with the Brockett integrator as an example, in \cite{Zuyev2016,ZuyevGrushkovskaya2025}. Blow-up as a tool
+with the Brockett integrator as an example, in \cite{Zuyev2016,ZuyevGrushkovskaya2025}.
+
+Blow-up as a tool
 of feedback design is used by Jard\'on-Kojakhmetov, Scherpen and del Puerto-Flores \cite{JardonScherpenPuerto2019}
 for slow--fast systems at non-hyperbolic points: there the controller is designed in the charts of the
-blow-up; here, in addition, the exceptional set carries the branches of the feedback. A discrete variable
+blow-up; here, in addition, the exceptional set carries the branches of the feedback.
+
+A discrete variable
 carried by the controller that selects one of several feedbacks, as the branch does here, is also used in
 the hybrid controllers of Sanfelice and coauthors \cite{GoebelSanfeliceTeel2012,Sanfelice2021}; there it is
 switched during the motion, here it is chosen once, at $t=0$.
@@ -1775,7 +1938,7 @@ the two perpendicular parts of $u$ are $\nu A$ and $\nu(1+\rho^{2})^{1/4}B$, so 
 and a unit of $B$ costs $\nu(1+\rho^{2})^{1/4}$. So near the axis
 the state uses $A>0$ and sets $B=0$: the whole control goes into the cheap outward motion, and
 the state moves away from the axis at constant height. This lowers $|\rho|=|x_3|/r^{2}$, and with it the cost of moving the height. The descent
-\eqref{eq:tworates} above fits the bound only for $|\rho|\le\rho_{\max}$, a value given below, so
+\eqref{eq:tworates} fits the bound only for $|\rho|\le\rho_{\max}$, a value given below, so
 it starts on a horn $|\rho|=\rho_0$ with $\rho_0\le\rho_{\max}$. The horn $|\rho|=\rho_{\max}$ is the
 first one, coming from the axis, on which the descent is possible. In $x$: from a point at height
 $x_3$ the state must first move out to the radius $r=(|x_3|/\rho_0)^{1/2}$.
@@ -1832,13 +1995,13 @@ with $\chi(\rho)=\rho^{2}/(1+\rho^{2})$, the single pair
 \end{equation}
 agrees with the descent near $\rho=0$ and with the outward motion near the axis, and all conclusions of
 the Proposition on the estimates hold for it with other constants; only the exact duration
-\eqref{eq:entrytime} of the outward motion is lost, and for that and for the choice of frequency in \S\ref{sec:leaf} above we keep the surface.
+\eqref{eq:entrytime} of the outward motion is lost, and for that and for the choice of frequency in \S\ref{sec:leaf} we keep the surface.
 \end{remark}
 
 \section{Proof of the Theorem on the rotating branch}\label{app:rotating}
 In this appendix $h$ and $X$ denote the quantities defined below; they are not the coupling or the state space.
 
-This appendix proves the Theorem of \S\ref{sec:rotating} above: the law \eqref{eq:rotlaw} stabilises the
+This appendix proves the Theorem of \S\ref{sec:rotating}: the law \eqref{eq:rotlaw} stabilises the
 Brockett integrator \eqref{eq:brockett} with a uniform exponential rate.
 
 \emph{Outline.} A reflection reduces the proof to the half-space $x_3>0$. Outside the tube the law is the
@@ -1936,7 +2099,7 @@ the dilations and the growth bound gives the estimate with $K=2e^{LT}$ and $\mu=
 \section{Proofs for the control of frequency}\label{app:frequency}
 
 \subsection{A linear coupling does not give an invariant graph}\label{app:no-graph}
-This subsection proves the claims of the second Remark of \S\ref{sec:critical-pair} above.
+This subsection proves the claims of the second Remark of \S\ref{sec:critical-pair}.
 
 \emph{Outline.} Along the reference trajectory that leaves the origin, the plant is a linear equation with
 explicit forcing. Its solution is computed in closed form, and its limit as $t\to+\infty$ differs from the
@@ -1986,7 +2149,7 @@ In this subsection the letters $v$ and $w$ denote complex numbers that describe 
 and $E$ denote quantities defined below; they are not the plant field, the reference field, the linear part
 of the reference, or the ellipse.
 
-This subsection proves the classification of $\Omega$ in \S\ref{sec:reachable} above: the
+This subsection proves the classification of $\Omega$ in \S\ref{sec:reachable}: the
 floor \eqref{eq:floor}, the case \eqref{eq:inside} inside and on the ellipse, and the ceiling \eqref{eq:ceiling-U}
 outside it. The quantity $\mathcal A$ below is the $A$ of \eqref{eq:varphi}; the letter $A$ is used here for the
 function $A(w)$ defined below.
@@ -2027,7 +2190,7 @@ $c_{02}=d_{02}/(2\varepsilon-i(2\omega+1))$, and this appendix works with their 
 \[
   c_{20}=\frac{d_{20}}{i(2\omega-1)},\qquad c_{11}=i\,d_{11},\qquad c_{02}=\frac{d_{02}}{-i(2\omega+1)}
 \]
-(\S\ref{sec:critical-pair} above). The solution is formal: by the second Remark of \S\ref{sec:critical-pair} above the graph it defines at the origin
+(\S\ref{sec:critical-pair}). The solution is formal: by the second Remark of \S\ref{sec:critical-pair} the graph it defines at the origin
 need not extend to the reference cycle. With $z=re^{i\theta}$ one has
 $|\partial_zF_2|^{2}-|\partial_{\bar z}F_2|^{2}=r^{2}\varphi(\theta)$,
 \[
@@ -2090,7 +2253,7 @@ ellipse), $\Omega=(0,\frac1{\sqrt2})\setminus\{\frac12\}$, and only rotation $+2
 that is, $|H|^{2}-2(|G|^{2}+|K|^{2})=|H^{2}-4GK|$.
 \item[(g)] As $H$ tends to a point of the ellipse with $\Pi>0$ from outside, $U\to+\infty$.
 \item[(h)] $H$ lies strictly inside the ellipse iff $|G|\ne|K|$ and $|K\bar H-\bar GH|<\bigl||G|^{2}-|K|^{2}\bigr|$
-(hypothesis (H3) of \S\ref{sec:general-freq} above).
+(hypothesis (H3) of \S\ref{sec:general-freq}).
 \item[(i)] A coupling with $d_{11}=0$ and $|d_{20}|\ne|d_{02}|$ exists iff $D<0$, and then one with
 $|d_{02}|<|d_{20}|$ exists. If both roots of $q$ (\S\ref{app:roots}) lie in the unit disk, the coupling $(1,w)$ with $w$ their
 hyperbolic midpoint has $d_{11}=0$ and $|d_{02}|<|d_{20}|$.
@@ -2103,9 +2266,9 @@ although $\xi=\frac52$, $\eta=0$ would satisfy the inequality of (a) without the
 
 \begin{remark}
 $\Omega$ concerns the second-order data of a linear coupling only. Such a coupling does not in
-general produce an invariant graph through the reference cycle (second Remark of \S\ref{sec:critical-pair} above), so $\Omega$ is not
+general produce an invariant graph through the reference cycle (second Remark of \S\ref{sec:critical-pair}), so $\Omega$ is not
 by itself a set of frequencies realised by a synthesis. Inside the ellipse, which by (h) is the
-condition that $Q$ has no folds, the Theorem of \S\ref{sec:general-freq} above realises every $\omega\neq\frac12$ with rotation
+condition that $Q$ has no folds, the Theorem of \S\ref{sec:general-freq} realises every $\omega\neq\frac12$ with rotation
 $+2$ and every $\omega$ with rotation $-2$, by a nonlinear coupling.
 \end{remark}
 
@@ -2472,7 +2635,7 @@ and $|d_{02}|<|d_{20}|$. If $G=0$, $D<0$ means $|H|<|K|$, and $(K,H,0)$ has the 
 $\mathbb D$, so the same argument applies. \qed
 
 \subsection{Proof of the Lemma on quadratics without folds}\label{app:double}
-This subsection proves the Lemma of \S\ref{sec:general-freq} above.
+This subsection proves the Lemma of \S\ref{sec:general-freq}.
 
 \emph{Outline.} On the unit circle the Jacobian of $Q$ is a positive multiple of the derivative of $\arg Q$,
 so (H3) makes $\arg Q(e^{i\theta})$ strictly monotone. A root count bounds the winding number, monotonicity makes
@@ -2491,15 +2654,21 @@ homogeneity from compactness of the unit circle.
 \end{proof}
 
 \subsection{Proof of the Theorem for $H$ strictly inside the ellipse}\label{app:main}
-This subsection proves the Theorem of \S\ref{sec:general-freq} above.
+This subsection proves the Theorem of \S\ref{sec:general-freq}.
 
-\emph{Outline.} (i) Writing $x_<=s^{2}e^{i\phi}$ and $p=sq$ turns the pointwise equation \eqref{eq:pointwise}
-into $Q(q)=i\delta e^{i\phi}$ plus a small term; the Lemma and the implicit function theorem give exactly two
-roots, exchanged once around $x_<=0$. (ii) Labelling the branch by $z$ with $z^{2}=x_<$ turns the closed loop into
+\emph{Outline.}
+\begin{itemize}
+\item[(i)] Writing $x_<=s^{2}e^{i\phi}$ and $p=sq$ turns the pointwise equation \eqref{eq:pointwise}
+into $Q(q)=i\delta e^{i\phi}$ plus a small term. The Lemma and the implicit function theorem give exactly two
+roots, exchanged once around $x_<=0$.
+\item[(ii)] Labelling the branch by $z$ with $z^{2}=x_<$ turns the closed loop into
 a skew product over the reference, in which the complement $x_>$ is driven by a forcing of size $|z|^{2}$ and
-contracts; this makes the cone $\mathcal N_\varepsilon$ positively invariant. (iii) Over the reference cycle the period
-map of $x_>$ is a contraction, and its fixed point is the cycle $\gamma$. (iv) The periods are read off from
+contracts. This makes the cone $\mathcal N_\varepsilon$ positively invariant.
+\item[(iii)] Over the reference cycle the period
+map of $x_>$ is a contraction, and its fixed point is the cycle $\gamma$.
+\item[(iv)] The periods are read off from
 $z(t)$.
+\end{itemize}
 
 \begin{proof}
 \emph{(i) The pointwise equation.} Write $x_<=s^{2}e^{i\phi}$ with $s=|x_<|^{1/2}$, and $p=sq$.
@@ -2566,7 +2735,7 @@ compared with $|\delta|$, whence $\varepsilon_0\to0$ as $\delta\to0$.
 \end{proof}
 
 \subsection{Proof of the Theorem with friction}\label{app:friction}
-This subsection proves the Theorem of \S\ref{sec:friction} above.
+This subsection proves the Theorem of \S\ref{sec:friction}.
 
 \emph{Outline.} After scaling, the product system is a skew product over the reference, with a two-dimensional
 fibre (Step~1). A normal-form substitution removes all terms of order $\varepsilon$ in the fibre equation except
@@ -2668,7 +2837,7 @@ $\Phi_\varepsilon(\nu)=\varepsilon\hat Y(\nu/\varepsilon)$. Since $\hat F_2$ is 
 $\|D(\vartheta^{2})^{-1}\|=1/(2|\vartheta|)$, this gives the two estimates of (i). Next, $\hat F_2$ is a homeomorphism of $\C$: by
 $\det D(z^{2})=4|z|^{2}>0$ its Jacobian has the constant sign of that of $F_2$; and since $F_2$ is homogeneous of degree
 two with sign-definite Jacobian, $\arg F_2(e^{i\theta})$ is strictly monotone (as in the proof of the Lemma of
-\S\ref{sec:general-freq}, Appendix~\ref{app:double} above), $F_2(e^{i\theta})=e^{2i\theta}(c_{20}+c_{11}e^{-2i\theta}+c_{02}e^{-4i\theta})$ winds $\sigma=\pm2$ times, and
+\S\ref{sec:general-freq}, Appendix~\ref{app:double}), $F_2(e^{i\theta})=e^{2i\theta}(c_{20}+c_{11}e^{-2i\theta}+c_{02}e^{-4i\theta})$ winds $\sigma=\pm2$ times, and
 $\hat F_2$ restricted to the unit circle is a simple closed curve winding once. Being homogeneous, $\hat F_2$ is then
 bi-Lipschitz, with $|\hat F_2(\mu_1)-\hat F_2(\mu_2)|\ge m_0|\mu_1-\mu_2|$. As $\hat Y-\hat F_2$ has Lipschitz constant at most
 $C\varepsilon<m_0$, $\hat Y$ is injective, and it is a local diffeomorphism off $0$ with the orientation of $\hat F_2$. So
@@ -2687,27 +2856,30 @@ $|\Phi_\varepsilon(\nu)-\hat F_2(\nu)|\le C\varepsilon|\nu|=C\varepsilon^{2}$ on
 \end{proof}
 
 \subsection{Proof of the Theorem for the full plant}\label{app:friction-full}
-This subsection proves the Theorem of \S\ref{sec:friction-full} above.
+This subsection proves the Theorem of \S\ref{sec:friction-full}.
 
 \emph{Outline.} A centre manifold of the product system reduces it to the critical plane, as a skew product
 over the reference (Step~1). The plant's own terms of order two and three now enter the scaled critical equation
 at order $\sqrt\varepsilon$ (Step~2). A normal form in two steps removes them, except for a constant shift
 $\kappa_2$ of the friction, at the price of the three further resonances $3\omega=\omega_0$, $\omega=\omega_0$ and
-$\omega=2\omega_0$ (Step~3). The construction of the invariant section in Appendix~\ref{app:friction} above then
+$\omega=2\omega_0$ (Step~3). The construction of the invariant section in Appendix~\ref{app:friction} then
 applies with $\kappa+\kappa_2$ in place of $\kappa$ (Step~4). The section is a branched double covering (Step~5), and
 the closed loop near it is analysed in the coordinates $(z,x_>-Y_>(z))$ (Step~6).
 
 \begin{proof}
 \emph{Step 1: reduction to the critical plane.} Regard $\varepsilon$ as a parameter. At $\varepsilon=0$ the product system has at the
-origin the eigenvalues $\pm i\omega$ (reference) and $\pm i\omega_0$ (critical mode) on the imaginary axis, and those of $A_L$, with
-real parts $\le-a<0$. By the center manifold theorem for families depending on parameters, in the form of the reduction
+origin the eigenvalues $\pm i\omega$ (reference) and $\pm i\omega_0$ (critical mode) on the imaginary axis, and those of $A_L=A_>+C_>L$, the Hurwitz matrix of \S\ref{sec:general-freq}, with
+real parts $\le-a<0$.
+
+By the center manifold theorem for families depending on parameters, in the form of the reduction
 principle \cite{Shosh1972,Shosh1975reduction}, the family has near the origin a $C^{5}$ locally invariant center manifold
-$S_\varepsilon=\{x_>=\mathcal H(z,x_<,\varepsilon)\}$, defined on a neighbourhood of fixed size for all small $\varepsilon$, tangent at the origin
-to the eigenspace $x_>=\Lambda x_<$ of the critical eigenvalues, where $\Lambda$ solves $A_L\Lambda-\Lambda J_0=-A_{><}$ ($J_0$ the multiplication by $i\omega_0$), and attracting the nearby orbits (a center manifold of any finite
-class $C^{k}$ exists for a $C^{k}$ family, on a neighbourhood depending on $k$; class $C^{5}$ is what Step~3 uses); we write $S$ and $\mathcal H(z,x_<)$
-for fixed $\varepsilon$; the region $|z|^{2}\le2\varepsilon$, $|x_<|\le C\varepsilon$ lies inside it for small $\varepsilon$. Its Taylor
-expansion is fixed by invariance: with $z=\sqrt\varepsilon \vartheta$, $x_<=\varepsilon y$,
-$\mathcal H=\varepsilon\bigl(\Lambda y+H_2(\vartheta)\bigr)+O(\varepsilon^{3/2})$, where $H_2$ solves $L_\omega H_2=A_LH_2+R_{uu}(\psi)-\Lambda Q(\psi)$ with $L_\omega$ the operator $L$ of Step~2 in Appendix~\ref{app:friction} above; both equations are uniquely
+$S_\varepsilon=\{x_>=\mathcal H(z,x_<,\varepsilon)\}$, defined on a neighbourhood of fixed size for all small $\varepsilon$. It is tangent at the origin
+to the eigenspace $x_>=\Lambda x_<$ of the critical eigenvalues, where $\Lambda$ solves $A_L\Lambda-\Lambda J_0=-A_{><}$ ($J_0$ the multiplication by $i\omega_0$), and it attracts the nearby orbits. (A center manifold of any finite
+class $C^{k}$ exists for a $C^{k}$ family, on a neighbourhood depending on $k$; class $C^{5}$ is what Step~3 uses.) We write $S$ and $\mathcal H(z,x_<)$
+for fixed $\varepsilon$. The region $|z|^{2}\le2\varepsilon$, $|x_<|\le C\varepsilon$ lies inside this neighbourhood for small $\varepsilon$.
+
+The Taylor expansion of $\mathcal H$ is fixed by invariance: with $z=\sqrt\varepsilon \vartheta$, $x_<=\varepsilon y$,
+$\mathcal H=\varepsilon\bigl(\Lambda y+H_2(\vartheta)\bigr)+O(\varepsilon^{3/2})$, where $H_2$ solves $L_\omega H_2=A_LH_2+R_{uu}(\psi)-\Lambda Q(\psi)$ with $L_\omega$ the operator $L$ of Step~2 in Appendix~\ref{app:friction}. Both equations are uniquely
 solvable because $A_L$ is Hurwitz. On $S$ the product system is a skew product over the reference, with the
 two-dimensional fibre $y$.
 
@@ -2859,6 +3031,8 @@ The author used the AI assistants Claude (Anthropic) and ChatGPT (OpenAI) for he
   doi:10.1037/11592-000.
 \bibitem{Parry1977} W.~Parry, A finitary classification of topological Markov chains and sofic systems,
   \emph{Bull.\ London Math.\ Soc.} \textbf{9} (1977), 86--92, doi:10.1112/blms/9.1.86.
+
+\bibitem{Lojasiewicz1959} S.~\L{}ojasiewicz, Sur le probl\`eme de la division, \emph{Studia Math.} \textbf{18} (1959), 87--136, doi:10.4064/sm-18-1-87-136.
 
 \bibitem{BrivadisAndrieuBernardSerres2023} L.~Brivadis, V.~Andrieu, P.~Bernard, U.~Serres,
   \emph{Further remarks on KKL observers}, Systems Control Lett.\ \textbf{172} (2023), 105429,
